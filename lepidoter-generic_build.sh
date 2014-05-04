@@ -134,6 +134,7 @@ console-common	console-data/keymap/full	select	de-latin1-nodeadkeys
 " > debconf.set
 
 echo "#!/bin/bash
+export DEBIAN_FRONTEND=noninteractive
 debconf-set-selections /debconf.set
 rm -f /debconf.set
 apt-get update
