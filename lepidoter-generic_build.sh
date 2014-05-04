@@ -147,7 +147,7 @@ SKIP_BACKUP=1 rpi-update
 # Too fast, causes segmentation fault
 sleep 5s
 
-wget -O /sbin/raspi-config https://github.com/asb/raspi-config/raw/master/raspi-config
+wget -O /sbin/raspi-config https://github.com/anadahz/raspi-config_lepidopter/raw/master/raspi-config
 chmod +x /sbin/raspi-config
 
 # Building ooniprobe
