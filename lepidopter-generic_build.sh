@@ -21,7 +21,7 @@ PASSWD="lepidopter"
 deb_release="wheezy"
 
 device=$1
-buildenv="/lepidopter-build"
+buildenv="/root/lepidopter-build"
 rootfs="${buildenv}/rootfs"
 bootfs="${rootfs}/boot"
 
