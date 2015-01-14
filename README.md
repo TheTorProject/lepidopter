@@ -5,6 +5,16 @@ The generic lepidopter image build script using the debootstap method.
 The image provides a ready to run [ooniprobe](https://github.com/TheTorProject/ooni-probe)
 installation.
 
+## Using vagrant
+
+If you a vagrant type of person you can just run:
+
+```
+vagrant up
+```
+
+Then you should have the image good to go inside your current working directory.
+
 ## Install required packages (Debian)
 ```
 apt-get install binfmt-support qemu qemu-user-static debootstrap kpartx lvm2 dosfstools
