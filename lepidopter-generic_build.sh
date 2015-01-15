@@ -5,6 +5,7 @@
 # binfmt-support qemu qemu-user-static debootstrap kpartx lvm2 dosfstools
 
 set -e # Exit on first error
+#set -x # Enable debugging
 
 OONIPROBE_PATH="/root/ooni-probe"
 
