@@ -9,7 +9,7 @@ set -e # Exit on first error
 
 OONIPROBE_PATH="/root/ooni-probe"
 
-deb_mirror="http://http.us.debian.org/debian"
+deb_mirror="http://cdn.debian.net/debian"
 #deb_local_mirror="http://localhost:3142/debian"
 
 bootsize="64M"
