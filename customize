@@ -1,0 +1,48 @@
+#!/bin/sh
+OONIPROBE_PATH="/root/ooni-probe"
+
+set -e # Exit on first error
+rootdir="$1"
+
+# Install non-free binary blob needed to boot Raspberry Pi.  This
+# install a kernel somewhere too.
+wget https://raw.github.com/Hexxeh/rpi-update/master/rpi-update \
+    -O $rootdir/usr/bin/rpi-update
+chmod a+x $rootdir/usr/bin/rpi-update
+mkdir -p $rootdir/lib/modules
+touch $rootdir/boot/start.elf
+# Disable self update, issues with curl and ca-certificates in chroot
+export UPDATE_SELF=0 
+chroot $rootdir rpi-update
+
+# lepidopter raspi-config
+wget -O $rootdir/sbin/raspi-config \
+https://github.com/anadahz/raspi-config_lepidopter/raw/master/raspi-config
+chmod +x $rootdir/sbin/raspi-config
+
+# Network configuration
+cat <<EOF > $rootdir/etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+EOF
+
+# ooniprobe setup script
+cat <<EOF > $rootdir/third-stage.sh
+#!/bin/bash
+
+# Building ooniprobe
+git clone https://github.com/TheTorProject/ooni-probe.git ${OONIPROBE_PATH}
+cd ${OONIPROBE_PATH}
+# First install pyasn1 and pyasn1-modules to avoid bugs
+pip install --timeout 60 pyasn1 pyasn1-modules
+pip install --timeout 60 -r requirements.txt
+python setup.py install
+history -c
+EOF
+
+chmod a+x $rootdir/third-stage.sh
+chroot $rootdir /third-stage.sh
+rm $rootdir/third-stage.sh
