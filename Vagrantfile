@@ -3,8 +3,8 @@
 
 $setup= <<SETUP
 apt-get update
-apt-get install -y binfmt-support qemu qemu-user-static debootstrap kpartx lvm2 dosfstools
-/root/lepidopter-build/lepidopter-generic_build.sh
+apt-get install -y vmdebootstrap
+/root/lepidopter-build/lepidopter-vmdebootstrap_build.sh
 SETUP
 
 Vagrant.configure("2") do |config|
