@@ -2,8 +2,8 @@
 
 ## Description
 The generic lepidopter image build script using the debootstap method.
-The image provides a ready to run [ooniprobe](https://github.com/TheTorProject/ooni-probe)
-installation.
+The image provides a ready to run
+[ooniprobe](https://github.com/TheTorProject/ooni-probe) installation.
 
 ## Using vagrant
 
@@ -17,18 +17,14 @@ Then you should have the image good to go inside your current working directory.
 
 ## Install required packages (Debian)
 ```
-apt-get install binfmt-support qemu qemu-user-static debootstrap kpartx lvm2 dosfstools
-```
+apt-get install vmdebootstrap ```
 
 ## Building lepidopter image
 Run the main build script:
 ```
-./lepidoter-generic_build.sh
+.lepidopter-vmdebootstrap_build.sh/
 ```
-Build lepidopter image directly to a block device:
-```
-./lepidoter-generic_build.sh /dev/sdX
-```
+
 ## Copying lepidopter image to the SD Card:
 dd if=path_of_your_image.img of=/dev/diskX bs=1m
 
@@ -38,7 +34,7 @@ on how to flash/copy lepidopter Raspberry Pi image to your SD card from differen
 Lepidopter image default username/password:
 
 ```
-username: root 
+username: lepidopter
 password: lepidopter
 ```
 
