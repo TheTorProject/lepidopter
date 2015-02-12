@@ -3,7 +3,9 @@
 
 $setup= <<SETUP
 apt-get update
-apt-get install -y vmdebootstrap
+apt-get install -y debootstrap qemu-utils extlinux kpartx part python-cliapp
+wget -O /usr/bin/vmdebootstrap \
+http://git.liw.fi/cgi-bin/cgit/cgit.cgi/vmdebootstrap/plain/vmdebootstrap
 /root/lepidopter-build/lepidopter-vmdebootstrap_build.sh
 SETUP
 
