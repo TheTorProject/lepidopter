@@ -1,27 +1,28 @@
 #!/bin/sh
-OONIPROBE_PATH="/root/ooni-probe"
 
 set -e # Exit on first error
-rootdir="$1"
 
-# Install non-free binary blob needed to boot Raspberry Pi.  This
-# install a kernel somewhere too.
+OONIPROBE_PATH="/root/ooni-probe"
+ROOTDIR="$1"
+
+# Install non-free binary blob needed to boot Raspberry Pi.  
+# This install a kernel somewhere too.
 wget https://raw.github.com/Hexxeh/rpi-update/master/rpi-update \
-    -O $rootdir/usr/bin/rpi-update
-chmod a+x $rootdir/usr/bin/rpi-update
-mkdir -p $rootdir/lib/modules
-touch $rootdir/boot/start.elf
+    -O ${ROOTDIR}/usr/bin/rpi-update
+chmod a+x ${ROOTDIR}/usr/bin/rpi-update
+mkdir -p ${ROOTDIR}/lib/modules
+touch ${ROOTDIR}/boot/start.elf
 # Disable self update, issues with curl and ca-certificates in chroot
 export UPDATE_SELF=0 
-chroot $rootdir rpi-update
+chroot ${ROOTDIR} rpi-update
 
 # lepidopter raspi-config
-wget -O $rootdir/sbin/raspi-config \
+wget -O ${ROOTDIR}/sbin/raspi-config \
 https://github.com/anadahz/raspi-config_lepidopter/raw/master/raspi-config
-chmod +x $rootdir/sbin/raspi-config
+chmod +x ${ROOTDIR}/sbin/raspi-config
 
 # Network configuration
-cat <<EOF > $rootdir/etc/network/interfaces
+cat <<EOF > ${ROOTDIR}/etc/network/interfaces
 auto lo
 iface lo inet loopback
 
@@ -30,19 +31,78 @@ iface eth0 inet dhcp
 EOF
 
 # ooniprobe setup script
-cat <<EOF > $rootdir/third-stage.sh
+cat <<EOF > ${ROOTDIR}/setup-ooniprobe.sh
 #!/bin/bash
 
 # Building ooniprobe
 git clone https://github.com/TheTorProject/ooni-probe.git ${OONIPROBE_PATH}
 cd ${OONIPROBE_PATH}
-# First install pyasn1 and pyasn1-modules to avoid bugs
-pip install --timeout 60 pyasn1 pyasn1-modules
-pip install --timeout 60 -r requirements.txt
+# Install ooniprobe dependencies
+./setup-dependencies.sh -p -y
 python setup.py install
 history -c
 EOF
 
-chmod a+x $rootdir/third-stage.sh
-chroot $rootdir /third-stage.sh
-rm $rootdir/third-stage.sh
+chmod +x ${ROOTDIR}/setup-ooniprobe.sh
+chroot ${ROOTDIR} /setup-ooniprobe.sh
+rm ${ROOTDIR}/setup-ooniprobe.sh
+
+# Adding module for hardware RNG
+cat <<EOF >> ${ROOTDIR}/etc/modules
+bcm2708_rng
+EOF
+
+# Regenerate SSH keys SYSV script
+cat <<'EOF' > ${ROOTDIR}/etc/init.d/regenerate_ssh_host_keys
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          regenerate_ssh_host_keys
+# Required-Start:    $local_fs $remote_fs 
+# Required-Stop:     $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Regenerate ssh host keys
+# Description: This script will regenerate the host SSH keys.
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+set -e
+
+case "$1" in
+  start)
+    log_daemon_msg "Regenerating ssh host keys..."
+    dpkg-reconfigure openssh-server
+    log_daemon_msg "Remove regenerate_ssh_host_keys SYSV links..."
+    update-rc.d regenerate_ssh_host_keys remove
+    log_daemon_msg "Enable SSH Service..."
+    update-rc.d ssh enable
+    log_daemon_msg "Start SSH Daemon..."
+    service ssh start
+    log_end_msg $?
+    ;;
+  *)
+    log_success_msg "Usage: $0 start "
+    exit 3
+    ;;
+esac
+
+exit 0
+EOF
+
+# Remove SSH host keys and add regenerate_ssh_host_keys SYSV script
+cat <<'EOF' > ${ROOTDIR}/remove_ssh_host_keys.sh
+#!/bin/bash
+# Re-enables at first boot after regeneration of ssh host keys
+update-rc.d ssh disable
+rm -f /etc/ssh/ssh_host*
+chmod +x /etc/init.d/regenerate_ssh_host_keys
+update-rc.d regenerate_ssh_host_keys defaults
+history -c
+EOF
+
+chmod +x ${ROOTDIR}/remove_ssh_host_keys.sh
+chroot ${ROOTDIR} /remove_ssh_host_keys.sh
+rm ${ROOTDIR}/remove_ssh_host_keys.sh
+
+echo "Customize script finished successfully."
