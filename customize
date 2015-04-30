@@ -129,19 +129,7 @@ chmod +x ${ROOTDIR}/etc/cron.weekly/run_oonideckgen
 # Add weekly cronjob
 # Update ooniprobe weekly
 cat <<'EOF' > ${ROOTDIR}/etc/cron.weekly/update_ooniprobe
-#!/bin/bash
-OONIPROBEGITDIR="/root/ooni-probe"
-
-if [ -d $OONIPROBEGITDIR ]; then
-  cd $OONIPROBEGITDIR
-  git pull origin
-  python setup.py install
-else
-  mkdir $OONIPROBEGITDIR
-  git clone https://github.com/TheTorProject/ooni-probe.git $OONIPROBEGITDIR
-  cd $OONIPROBEGITDIR
-  python setup.py install
-fi
+pip -q install ooniprobe --upgrade
 EOF
 
 chmod +x ${ROOTDIR}/etc/cron.weekly/update_ooniprobe
