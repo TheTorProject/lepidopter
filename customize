@@ -5,6 +5,9 @@ set -e # Exit on first error
 OONIPROBE_PATH="/root/ooni-probe"
 ROOTDIR="$1"
 
+export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
+export LC_ALL=C LANGUAGE=C LANG=C
+
 # Install non-free binary blob needed to boot Raspberry Pi.  
 # This install a kernel somewhere too.
 wget https://raw.github.com/Hexxeh/rpi-update/master/rpi-update \
@@ -13,7 +16,7 @@ chmod a+x ${ROOTDIR}/usr/bin/rpi-update
 mkdir -p ${ROOTDIR}/lib/modules
 touch ${ROOTDIR}/boot/start.elf
 # Disable self update, issues with curl and ca-certificates in chroot
-export UPDATE_SELF=0 
+export UPDATE_SELF=0 SKIP_BACKUP=1
 chroot ${ROOTDIR} rpi-update
 
 # lepidopter raspi-config

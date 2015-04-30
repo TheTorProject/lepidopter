@@ -1,11 +1,11 @@
-#/bin/sh
+#/bin/bash
 
 USER="lepidopter"
 PASSWD="lepidopter"
 DEB_RELEASE="wheezy"
 HOSTNAME_IMG="lepidopter"
 APT_MIRROR="http://http.debian.net/debian/"
-# apt-cache-ng
+# Uncomment next line to use apt-cache-ng
 #MIRROR="http://localhost:3142/debian"
 MIRROR="http://http.debian.net/debian/"
 
@@ -17,10 +17,13 @@ sudo vmdebootstrap \
     --mirror ${MIRROR} \
     --image lepidopter-`date +%Y%m%d`.img \
     --size 3900M \
-    --bootsize 64M \
+    --bootsize 128M \
     --boottype vfat \
     --log-level debug \
     --verbose \
+    --no-extlinux \
+    --roottype ext4 \
+    --lock-root-password \
     --no-kernel \
     --user ${USER}/${PASSWD} \
     --sudo \
