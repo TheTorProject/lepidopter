@@ -41,7 +41,7 @@ cat <<EOF > ${ROOTDIR}/setup-ooniprobe.sh
 git clone https://github.com/TheTorProject/ooni-probe.git ${OONIPROBE_PATH}
 cd ${OONIPROBE_PATH}
 # Install ooniprobe dependencies
-./setup-dependencies.sh -p -y
+./scripts/setup-dependencies.sh -p -y
 python setup.py install
 history -c
 EOF
@@ -134,4 +134,25 @@ EOF
 
 chmod +x ${ROOTDIR}/etc/cron.weekly/update_ooniprobe
 
+# Regenerate the test deck when changing network
+cat <<'EOF' > ${ROOTDIR}/etc/network/if-up.d/run_oonideckgen
+#!/bin/bash
+# Run oonideckgen on network change
+
+set -e
+
+# Exit for loopback change
+if [ "$IFACE" = lo ] ; then
+	  exit 0
+  fi
+
+oonideckgen
+
+exit 0
+EOF
+
+chmod +x ${ROOTDIR}/etc/network/if-up.d/run_oonideckgen
+
 echo "Customize script finished successfully."
+
+exit 0
