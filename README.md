@@ -22,13 +22,16 @@ apt-get install vmdebootstrap ```
 ## Building lepidopter image
 Run the main build script:
 ```
-.lepidopter-vmdebootstrap_build.sh/
+./lepidopter-vmdebootstrap_build.sh
 ```
 
 ## Copying lepidopter image to the SD Card:
-dd if=path_of_your_image.img of=/dev/diskX bs=1m
 
-Detailed [documentation](http://elinux.org/RPi_Easy_SD_Card_Setup#SD_card_setup) 
+```
+dd if=path_of_your_image.img of=/dev/diskX bs=1m
+```
+
+[Detailed documentation](http://elinux.org/RPi_Easy_SD_Card_Setup#SD_card_setup) 
 on how to flash/copy lepidopter Raspberry Pi image to your SD card from different OS.
 
 Lepidopter image default username/password:
@@ -48,11 +51,14 @@ or use cnxsoft's [zImage_3.1.9](http://dl.dropbox.com/u/45842273/zImage_3.1.9)
 
 1) Run lepidopter image in QEMU and redirect SSH connections from host port 2222 
 to SSH port on the guest:
+
 ```
 qemu-system-arm -M versatilepb -cpu arm1136-r2 -hda lepidopter.img -kernel zImage_3.1.9 \
 -m 256 -append "root=/dev/sda2" -redir tcp:2222::22
 ```
+
 2) You can now connect to lepidopter SSH (use default password lepidopter):
+
 ```
 ssh -P 2222 root@localhost
 ```
