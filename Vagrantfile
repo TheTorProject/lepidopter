@@ -2,13 +2,8 @@
 # vi: set ft=ruby :
 
 $setup= <<SETUP
-apt-get update
-apt-get install -y debootstrap qemu-utils extlinux kpartx parted python-cliapp mbr
-wget -O /usr/bin/vmdebootstrap \
-http://git.liw.fi/cgi-bin/cgit/cgit.cgi/vmdebootstrap/plain/vmdebootstrap
-chmod +x /usr/bin/vmdebootstrap
-cd /root/lepidopter-build/images/
-/root/lepidopter-build/lepidopter-vmdebootstrap_build.sh
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
+/root/lepidopter-build/scripts/setup.sh
 SETUP
 
 Vagrant.configure("2") do |config|
