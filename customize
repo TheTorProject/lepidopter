@@ -16,22 +16,13 @@ chmod a+x ${ROOTDIR}/usr/bin/rpi-update
 mkdir -p ${ROOTDIR}/lib/modules
 touch ${ROOTDIR}/boot/start.elf
 # Disable self update, issues with curl and ca-certificates in chroot
-export UPDATE_SELF=0 SKIP_BACKUP=1
+export UPDATE_SELF=0 SKIP_BACKUP=1 SKIP_WARNING=1
 chroot ${ROOTDIR} rpi-update
 
 # lepidopter raspi-config
 wget -O ${ROOTDIR}/sbin/raspi-config \
 https://github.com/anadahz/raspi-config_lepidopter/raw/master/raspi-config
 chmod +x ${ROOTDIR}/sbin/raspi-config
-
-# Network configuration
-cat <<EOF > ${ROOTDIR}/etc/network/interfaces
-auto lo
-iface lo inet loopback
-
-auto eth0
-iface eth0 inet dhcp
-EOF
 
 # ooniprobe setup script
 cat <<EOF > ${ROOTDIR}/setup-ooniprobe.sh
@@ -40,9 +31,9 @@ cat <<EOF > ${ROOTDIR}/setup-ooniprobe.sh
 # Building ooniprobe
 git clone https://github.com/TheTorProject/ooni-probe.git ${OONIPROBE_PATH}
 cd ${OONIPROBE_PATH}
+git checkout feature/install
 # Install ooniprobe dependencies
-./scripts/setup-dependencies.sh -p -y
-python setup.py install
+sh scripts/install.sh
 history -c
 EOF
 
