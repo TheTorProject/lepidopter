@@ -34,12 +34,71 @@ cd ${OONIPROBE_PATH}
 git checkout feature/install
 # Install ooniprobe dependencies
 sh scripts/install.sh
+
 history -c
 EOF
-
 chmod +x ${ROOTDIR}/setup-ooniprobe.sh
+
 chroot ${ROOTDIR} /setup-ooniprobe.sh
 rm ${ROOTDIR}/setup-ooniprobe.sh
+
+cat <<EOF > ${ROOTDIR}/etc/ooniconfig.sh
+OONI_HOME=/data/probe-ops/ooni/
+PROBE_OPS=/data/probe-ops/
+EOF
+chmod +x ${ROOTDIR}/etc/ooniconfig.sh
+
+mkdir -p $ROOTDIR/data/probe-ops/logs/
+mkdir -p $ROOTDIR/data/probe-ops/ooni/
+mkdir -p $ROOTDIR/data/probe-ops/ooni/reports
+mkdir -p $ROOTDIR/data/probe-ops/ooni/decks
+
+# ooniprobe deck creation script
+cat <<EOF > ${ROOTDIR}/data/probe-ops/rotate-logs.sh
+source /etc/ooniconfig.sh
+
+echo "$(date) Rotating logs" >> $PROBE_OPS/logs/cronjobs.log
+mv $PROBE_OPS/logs/cronjobs.log.1
+echo "$(date) done rotating logs" > $PROBE_OPS/logs/cronjobs.log
+EOF
+chmod +x ${ROOTDIR}/data/probe-ops/rotate-logs.sh
+
+
+# ooniprobe deck creation script
+cat <<EOF > ${ROOTDIR}/data/probe-ops/ooni/update-deck.sh
+source /etc/ooniconfig.sh
+
+echo "$(date) Updating deck" >> $PROBE_OPS/logs/cronjobs.log
+# Build the deck and configure it 
+cd $OONI_HOME
+OONI_DECK=$(oonideckgen -o decks/ | tee -a $PROBE_OPS/logs/cronjobs.log | grep ^ooniprobe | cut -d ' ' -f3)
+echo "PROBE_OPS=$PROBE_OPS" > /etc/ooniconfig.sh.tmp
+echo "OONI_HOME=$OONI_HOME" >> /etc/ooniconfig.sh.tmp
+echo "OONI_DECK=$OONI_DECK" >> /etc/ooniconfig.sh.tmp
+mv /etc/ooniconfig.sh.tmp /etc/ooniconfig.sh
+chmod +x /etc/ooniconfig.sh
+echo "$(date) done updating deck" >> $PROBE_OPS/logs/cronjobs.log
+EOF
+chmod +x ${ROOTDIR}/data/probe-ops/ooni/update-deck.sh
+
+chroot ${ROOTDIR} /data/probe-ops/ooni/update-deck.sh
+
+# ooniprobe run command
+cat <<EOF > ${ROOTDIR}/data/probe-ops/ooni/run-ooniprobe.sh
+source /etc/ooniconfig.sh
+cd $OONI_HOME/reports/
+echo "$(date) running ooniprobe" >> $PROBE_OPS/logs/cronjobs.log
+ooniprobe -i $OONI_DECK | tee -a $PROBE_OPS/logs/cronjobs.log
+EOF
+chmod +x ${ROOTDIR}/data/probe-ops/ooni/run-ooniprobe.sh
+
+# update ooniprobe command
+cat <<EOF > ${ROOTDIR}/data/probe-ops/ooni/update-ooniprobe.sh
+source /etc/ooniconfig.sh
+pip -q install ooniprobe --upgrade
+ooniresources --update-inputs
+EOF
+chmod +x ${ROOTDIR}/data/probe-ops/ooni/update-ooniprobe.sh
 
 # Adding module for hardware RNG
 cat <<EOF >> ${ROOTDIR}/etc/modules
@@ -99,28 +158,36 @@ chmod +x ${ROOTDIR}/remove_ssh_host_keys.sh
 chroot ${ROOTDIR} /remove_ssh_host_keys.sh
 rm ${ROOTDIR}/remove_ssh_host_keys.sh
 
+
 # Add daily cronjob
 # Run ooniprobe with the configured deck every day
 cat <<'EOF' > ${ROOTDIR}/etc/cron.daily/run_ooniprobe_deck
 #!/bin/bash
-ooniprobe -i `oonideckgen | grep -e '^ooniprobe'`
+/data/probe-ops/ooni/run-ooniprobe.sh
 EOF
-
 chmod +x ${ROOTDIR}/etc/cron.daily/run_ooniprobe_deck
 
 # Add weekly cronjob
 # Update the inputs every week
-cat <<'EOF' > ${ROOTDIR}/etc/cron.weekly/run_oonideckgen
+cat <<'EOF' > ${ROOTDIR}/etc/cron.weekly/update_deck
 #!/bin/bash
-oonideckgen
+/date/probe-ops/rotate-logs.sh
 EOF
+chmod +x ${ROOTDIR}/etc/cron.weekly/update_deck
 
-chmod +x ${ROOTDIR}/etc/cron.weekly/run_oonideckgen
+# Add weekly cronjob
+# Rotate the logs
+cat <<'EOF' > ${ROOTDIR}/etc/cron.weekly/rotate_logs
+#!/bin/bash
+/date/probe-ops/rotate-logs.sh
+EOF
+chmod +x ${ROOTDIR}/etc/cron.weekly/rotate_logs
 
 # Add weekly cronjob
 # Update ooniprobe weekly
 cat <<'EOF' > ${ROOTDIR}/etc/cron.weekly/update_ooniprobe
-pip -q install ooniprobe --upgrade
+#!/bin/bash
+/data/probe-ops/ooni/update-ooniprobe.sh
 EOF
 
 chmod +x ${ROOTDIR}/etc/cron.weekly/update_ooniprobe
@@ -137,7 +204,7 @@ if [ "$IFACE" = lo ] ; then
 	  exit 0
   fi
 
-oonideckgen
+/data/probe-ops/ooni/update-deck.sh
 
 exit 0
 EOF
