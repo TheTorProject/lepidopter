@@ -1,6 +1,7 @@
 language: bash
 sudo: required
 env:
+  - ARCH=x86
   - ARCH=arm
 script:
   - "bash -ex .travis-ci.sh"
