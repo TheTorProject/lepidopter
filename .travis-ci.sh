@@ -8,6 +8,7 @@ TESTING_PACKAGES="tor tor-geoipdb"
 TOR_DEB_REPO="http://deb.torproject.org/torproject.org"
 REPO_KEY="A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89"
 KEYSERVER="hkp://pool.sks-keyservers.net"
+APT_REPO_LIST="/etc/apt/sources.list.d/tor.list"
 
 # Chroot specific variables
 CHROOT_DIR="/tmp/arm-chroot"
@@ -76,6 +77,6 @@ fi
 echo "Running tests"
 echo "Environment: $(uname -a)"
 sudo apt-key adv --keyserver ${KEYSERVER} --recv-keys ${REPO_KEY}
-echo "deb ${TOR_DEB_REPO} ${VERSION} main" > /etc/apt/sources.list.d/tor.list
+echo "deb ${TOR_DEB_REPO} ${VERSION} main" | sudo tee -a ${APT_REPO_LIST}
 sudo apt-get update
 ${TEST_COMMAND} ${TESTING_PACKAGES}
