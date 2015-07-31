@@ -23,12 +23,12 @@ HOST_DEPENDENCIES="debootstrap qemu-user-static binfmt-support sbuild"
 GUEST_DEPENDENCIES="build-essential git m4 sudo python"
 
 # Command used to run the tests
-TEST_COMMAND="sudo apt-get install -y"
+TEST_COMMAND="sudo apt-get install -q -y"
 
 function setup_arm_chroot {
     # Host dependencies
-    sudo apt-get update
-    sudo apt-get install -y ${HOST_DEPENDENCIES}
+    sudo apt-get update -q
+    sudo apt-get install -q -y ${HOST_DEPENDENCIES}
 
     # Create chrooted environment
     sudo mkdir ${CHROOT_DIR}
@@ -46,8 +46,8 @@ function setup_arm_chroot {
     chmod a+x envvars.sh
 
     # Install dependencies inside chroot
-    sudo chroot ${CHROOT_DIR} apt-get update
-    sudo chroot ${CHROOT_DIR} apt-get --allow-unauthenticated install \
+    sudo chroot ${CHROOT_DIR} apt-get -q update
+    sudo chroot ${CHROOT_DIR} apt-get -q --allow-unauthenticated install \
         -y ${GUEST_DEPENDENCIES}
 
     # Create build dir and copy travis build files to our chroot environment
@@ -78,5 +78,5 @@ echo "Running tests"
 echo "Environment: $(uname -a)"
 sudo apt-key adv --keyserver ${KEYSERVER} --recv-keys ${REPO_KEY}
 echo "deb ${TOR_DEB_REPO} ${VERSION} main" | sudo tee -a ${APT_REPO_LIST}
-sudo apt-get update
+sudo apt-get -q update
 ${TEST_COMMAND} ${TESTING_PACKAGES}
