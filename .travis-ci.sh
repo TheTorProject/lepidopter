@@ -75,7 +75,7 @@ fi
 
 echo "Running tests"
 echo "Environment: $(uname -a)"
-apt-key add --keyserver ${KEYSERVER} --recv-keys ${REPO_KEY}
+sudo apt-key add --keyserver ${KEYSERVER} --recv-keys ${REPO_KEY}
 echo "deb ${TOR_DEB_REPO} ${VERSION} main" > /etc/apt/sources.list.d/tor.list
-apt-get update
+sudo apt-get update
 ${TEST_COMMAND} ${TESTING_PACKAGES}
