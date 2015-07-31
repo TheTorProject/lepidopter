@@ -19,6 +19,7 @@ TEST_COMMAND="sudo apt-get install -y"
 
 function setup_arm_chroot {
     # Host dependencies
+    sudo apt-get update
     sudo apt-get install -y ${HOST_DEPENDENCIES}
 
     # Create chrooted environment
