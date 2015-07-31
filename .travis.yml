@@ -2,6 +2,6 @@ language: bash
 sudo: required
 env:
   - ARCH=x86
-  - ARCH=arm
+  - ARCH=armel
 script:
   - "bash -ex .travis-ci.sh"
