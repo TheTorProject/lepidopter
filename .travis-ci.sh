@@ -3,6 +3,13 @@
 
 # APT Packages to test
 TESTING_PACKAGES="tor tor-geoipdb"
+
+# Tor Debian repository variables
+TOR_DEB_REPO="http://deb.torproject.org/torproject.org"
+REPO_KEY="A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89"
+KEYSERVER="hkp://pool.sks-keyservers.net"
+
+# Chroot specific variables
 CHROOT_DIR="/tmp/arm-chroot"
 MIRROR="http://http.debian.net/debian/"
 VERSION=wheezy
@@ -68,5 +75,7 @@ fi
 
 echo "Running tests"
 echo "Environment: $(uname -a)"
-
+apt-key add --keyserver ${KEYSERVER} --recv-keys ${REPO_KEY}
+echo "deb ${TOR_DEB_REPO} ${VERSION} main" > /etc/apt/sources.list.d/tor.list
+apt-get update
 ${TEST_COMMAND} ${TESTING_PACKAGES}
