@@ -14,7 +14,7 @@ KEYSERVER="hkp://pool.sks-keyservers.net"
 APT_REPO_LIST="/etc/apt/sources.list.d/tor.list"
 
 # Chroot specific variables
-CHROOT_DIR=$($mktemp -d)
+CHROOT_DIR=${$RANDOM}
 MIRROR="http://http.debian.net/debian/"
 VERSION=wheezy
 PROPOSED_UPDATES_VERSION=proposed-updates/${VERSION}
