@@ -5,6 +5,4 @@ env:
   - ARCH=arm
 script:
   - "bash -ex .travis-ci.sh"
-script:
   - "bash -ex .travis-ci-proposed-updates.sh"
-
