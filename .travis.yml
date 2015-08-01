@@ -6,4 +6,5 @@ env:
 script:
   - "bash -ex .travis-ci.sh"
 script:
-  - "bash -ex .travis-ci.sh"
+  - "bash -ex .travis-ci-proposed-updates.sh"
+
