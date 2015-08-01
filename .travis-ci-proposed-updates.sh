@@ -34,13 +34,13 @@ function setup_arm_chroot {
     sudo apt-get install -q -y ${HOST_DEPENDENCIES}
 
     # Create chrooted environment
-    sudo mkdir ${CHROOT_DIR}
+    sudo mkdir ${CHROOT_DIR}-${CHROOT_ARCH}
     sudo debootstrap --foreign --no-check-gpg --include=fakeroot,build-essential \
-        --arch=${CHROOT_ARCH} ${VERSION} ${CHROOT_DIR} ${MIRROR}
-    sudo cp /usr/bin/qemu-arm-static ${CHROOT_DIR}/usr/bin/
-    sudo chroot ${CHROOT_DIR} ./debootstrap/debootstrap --second-stage
+        --arch=${CHROOT_ARCH} ${VERSION} ${CHROOT_DIR}-${CHROOT_ARCH} ${MIRROR}
+    sudo cp /usr/bin/qemu-arm-static ${CHROOT_DIR}-${CHROOT_ARCH}/usr/bin/
+    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} ./debootstrap/debootstrap --second-stage
     sudo sbuild-createchroot --arch=${CHROOT_ARCH} --foreign --setup-only \
-        ${VERSION} ${CHROOT_DIR} ${MIRROR}
+        ${VERSION} ${CHROOT_DIR}-${CHROOT_ARCH} ${MIRROR}
 
     # Create file with environment variables which will be used inside chrooted
     # environment
@@ -49,19 +49,19 @@ function setup_arm_chroot {
     chmod a+x envvars.sh
 
     # Install dependencies inside chroot
-    sudo chroot ${CHROOT_DIR} apt-get -q update
-    sudo chroot ${CHROOT_DIR} apt-get -q --allow-unauthenticated install \
+    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} apt-get -q update
+    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} apt-get -q --allow-unauthenticated install \
         -y ${GUEST_DEPENDENCIES}
 
     # Create build dir and copy travis build files to our chroot environment
-    sudo mkdir -p ${CHROOT_DIR}/${TRAVIS_BUILD_DIR}
-    sudo rsync -av ${TRAVIS_BUILD_DIR}/ ${CHROOT_DIR}/${TRAVIS_BUILD_DIR}/
+    sudo mkdir -p ${CHROOT_DIR}-${CHROOT_ARCH}/${TRAVIS_BUILD_DIR}
+    sudo rsync -av ${TRAVIS_BUILD_DIR}/ ${CHROOT_DIR}-${CHROOT_ARCH}/${TRAVIS_BUILD_DIR}/
 
     # Indicate chroot environment has been set up
-    sudo touch ${CHROOT_DIR}/.chroot_is_done
+    sudo touch ${CHROOT_DIR}-${CHROOT_ARCH}/.chroot_is_done
 
     # Call ourselves again which will cause tests to run
-    sudo chroot ${CHROOT_DIR} bash -c "cd ${TRAVIS_BUILD_DIR} && ./.travis-ci.sh"
+    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} bash -c "cd ${TRAVIS_BUILD_DIR} && ./.travis-ci.sh"
 }
 
 if [ -e "/.chroot_is_done" ]; then
