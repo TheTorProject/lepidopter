@@ -25,12 +25,12 @@ HOST_DEPENDENCIES="debootstrap qemu-user-static binfmt-support sbuild"
 GUEST_DEPENDENCIES="build-essential git m4 sudo python"
 
 # Command used to run the tests
-TEST_COMMAND="sudo apt-get install -q -y"
+TEST_COMMAND="sudo apt-get install -qq -y"
 
 function setup_arm_chroot {
     # Host dependencies
-    sudo apt-get update -q
-    sudo apt-get install -q -y ${HOST_DEPENDENCIES}
+    sudo apt-get update -qq
+    sudo apt-get install -qq -y ${HOST_DEPENDENCIES}
 
     # Create chrooted environment
     sudo mkdir ${CHROOT_DIR}-${CHROOT_ARCH}
@@ -48,13 +48,13 @@ function setup_arm_chroot {
     chmod a+x envvars.sh
 
     # Install dependencies inside chroot
-    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} apt-get -q update
-    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} apt-get -q --allow-unauthenticated install \
+    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} apt-get -qq update
+    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} apt-get -qq --allow-unauthenticated install \
         -y ${GUEST_DEPENDENCIES}
 
     # Create build dir and copy travis build files to our chroot environment
     sudo mkdir -p ${CHROOT_DIR}-${CHROOT_ARCH}/${TRAVIS_BUILD_DIR}
-    sudo rsync -av ${TRAVIS_BUILD_DIR}/ ${CHROOT_DIR}-${CHROOT_ARCH}/${TRAVIS_BUILD_DIR}/
+    sudo rsync -avq ${TRAVIS_BUILD_DIR}/ ${CHROOT_DIR}-${CHROOT_ARCH}/${TRAVIS_BUILD_DIR}/
 
     # Indicate chroot environment has been set up
     sudo touch ${CHROOT_DIR}-${CHROOT_ARCH}/.chroot_is_done
@@ -83,5 +83,5 @@ echo "Running tests"
 echo "Environment: $(uname -a)"
 sudo apt-key adv --keyserver ${KEYSERVER} --recv-keys `expr substr ${REPO_KEY} 33 8`
 echo "deb ${TOR_DEB_REPO} ${VERSION} main" | sudo tee -a ${APT_REPO_LIST}
-sudo apt-get -q update
+sudo apt-get -qq update
 ${TEST_COMMAND} ${TESTING_PACKAGES}
