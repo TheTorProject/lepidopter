@@ -78,7 +78,7 @@ fi
 echo "Running tests"
 echo "Environment: $(uname -a)"
 sudo apt-key adv --keyserver ${KEYSERVER} --recv-keys ${REPO_KEY}
-echo "deb ${TOR_DEB_REPO} ${PROPOSED_UPDATES_VERSION} main" \ 
-| sudo tee -a ${APT_REPO_LIST}
+echo "deb ${TOR_DEB_REPO} ${PROPOSED_UPDATES_VERSION} main" |
+sudo tee -a ${APT_REPO_LIST}
 sudo apt-get -q update
 ${TEST_COMMAND} ${TESTING_PACKAGES}
