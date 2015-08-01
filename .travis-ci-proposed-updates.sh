@@ -60,10 +60,6 @@ function setup_arm_chroot {
     # Indicate chroot environment has been set up
     sudo touch ${CHROOT_DIR}-${CHROOT_ARCH}/.chroot_is_done
 
-    # Call ourselves again which will cause tests to run
-    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} bash -c "cd ${TRAVIS_BUILD_DIR} && ./.travis-ci.sh"
-}
-
 if [ -e "/.chroot_is_done" ]; then
   # We are inside ARM chroot
   echo "Running inside chrooted environment"
