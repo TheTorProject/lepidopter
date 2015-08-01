@@ -4,6 +4,9 @@
 # APT Packages to test
 TESTING_PACKAGES="tor tor-geoipdb"
 
+# ARM architectures to test
+ARCHITECTURES="armel armhf"
+
 # Tor Debian repository variables
 TOR_DEB_REPO="http://deb.torproject.org/torproject.org"
 REPO_KEY="A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89"
@@ -14,7 +17,6 @@ APT_REPO_LIST="/etc/apt/sources.list.d/tor.list"
 CHROOT_DIR="/tmp/arm-chroot"
 MIRROR="http://http.debian.net/debian/"
 VERSION=wheezy
-CHROOT_ARCH=armel
 
 # Debian package dependencies for the host
 HOST_DEPENDENCIES="debootstrap qemu-user-static binfmt-support sbuild"
@@ -69,8 +71,11 @@ if [ -e "/.chroot_is_done" ]; then
 else
   if [ "${ARCH}" = "arm" ]; then
     # ARM test run, need to set up chrooted environment first
-    echo "Setting up chrooted ARM environment"
-    setup_arm_chroot
+    for CHROOT_ARCH in  ${ARCHITECTURES}
+    do
+      echo "Setting up chrooted  ${CHROOT_ARCH} environment"
+      setup_arm_chroot
+    done
   fi
 fi
 
