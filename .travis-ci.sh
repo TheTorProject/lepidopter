@@ -71,7 +71,7 @@ if [ -e "/.chroot_is_done" ]; then
 else
   if [ "${ARCH}" = "arm" ]; then
     # ARM test run, need to set up chrooted environment first
-    for CHROOT_ARCH in  ${ARCHITECTURES}
+    for CHROOT_ARCH in ${ARCHITECTURES}
     do
       echo "Setting up chrooted  ${CHROOT_ARCH} environment"
       setup_arm_chroot
