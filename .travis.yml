@@ -8,5 +8,5 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -q -y debootstrap qemu-user-static binfmt-support sbuild
 script:
-  - "bash -ex .travis-ci.sh"
-  - "bash -ex .travis-ci-proposed-updates.sh"
+  - "bash -ex .travis-ci-test-install-tor-packages.sh"
+  - "bash -ex .travis-ci-test-install-tor-packages-proposed-updates-repo.sh"

@@ -52,7 +52,8 @@ function setup_arm_chroot {
     sudo touch ${CHROOT_DIR}-${CHROOT_ARCH}/.chroot_is_done
 
     # Call ourselves again which will cause tests to run
-    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} bash -c "cd ${TRAVIS_BUILD_DIR} && ./.travis-ci.sh"
+    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} bash -c "cd ${TRAVIS_BUILD_DIR} &&
+        ./.travis-ci-test-install-tor-packages-proposed-updates-repo.sh"
 }
 
 if [ -e "/.chroot_is_done" ]; then
@@ -75,3 +76,6 @@ echo "deb ${TOR_DEB_REPO} ${PROPOSED_UPDATES_VERSION} main" |
 sudo tee -a ${APT_REPO_LIST}
 sudo apt-get -qq update
 ${TEST_COMMAND} ${TESTING_PACKAGES}
+
+# Test if tor works
+torsocks wget -qO- https://check.torproject.org/ | grep -i congratulations
