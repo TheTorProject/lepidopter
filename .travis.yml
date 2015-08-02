@@ -17,5 +17,5 @@ notifications:
       - "Change view : %{compare_url}"
       - "Build details : %{build_url}"
     channels:
-      - "chat.freenode.net#test-anadahz-channel"
+      - "irc.oftc.net#test-anadahz-channel"
     use_notice: true
