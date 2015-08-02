@@ -4,9 +4,6 @@
 # APT Packages to test
 TESTING_PACKAGES="tor tor-geoipdb"
 
-# ARM architectures to test
-ARCHITECTURES="armel armhf"
-
 # Tor Debian repository variables
 TOR_DEB_REPO="http://deb.torproject.org/torproject.org"
 REPO_KEY="A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89"
@@ -65,11 +62,8 @@ if [ -e "/.chroot_is_done" ]; then
 else
   if [ "${ARCH}" = "arm" ]; then
     # ARM test run, need to set up chrooted environment first
-    for CHROOT_ARCH in ${ARCHITECTURES}
-    do
       echo "Setting up chrooted  ${CHROOT_ARCH} environment"
       setup_arm_chroot
-    done
   fi
 fi
 

@@ -2,7 +2,8 @@ language: bash
 sudo: required
 env:
   - ARCH=x86
-  - ARCH=arm
+  - ARCH=arm CHROOT_ARCH=armel
+  - ARCH=arm CHROOT_ARCH=armhf
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -q -y debootstrap qemu-user-static binfmt-support sbuild
