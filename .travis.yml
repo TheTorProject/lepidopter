@@ -10,3 +10,12 @@ before_install:
 script:
   - "bash -ex .travis-ci-test-install-tor-packages.sh"
   - "bash -ex .travis-ci-test-install-tor-packages-proposed-updates-repo.sh"
+notifications:
+  irc:
+    template:
+      - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
+      - "Change view : %{compare_url}"
+      - "Build details : %{build_url}"
+    channels:
+      - "chat.freenode.net#test-anadahz-channel"
+    use_notice: true
