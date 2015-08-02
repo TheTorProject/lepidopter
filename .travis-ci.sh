@@ -1,4 +1,5 @@
 #!/bin/bash
+# Source: http://www.tomaz.me/2013/12/02/running-travis-ci-tests-on-arm.html
 # Based on a test script from avsm/ocaml repo https://github.com/avsm/ocaml
 
 # APT Packages to test
