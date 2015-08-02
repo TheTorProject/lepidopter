@@ -18,7 +18,7 @@ VERSION=wheezy
 
 
 # Debian package dependencies for the chrooted environment
-GUEST_DEPENDENCIES="build-essential git m4 sudo python"
+GUEST_DEPENDENCIES="build-essential git m4 sudo python wget"
 
 # Command used to run the tests
 TEST_COMMAND="sudo apt-get install -qq -y"
