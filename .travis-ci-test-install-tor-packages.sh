@@ -14,8 +14,6 @@ APT_REPO_LIST="/etc/apt/sources.list.d/tor.list"
 # Chroot specific variables
 CHROOT_DIR=/tmp/$RANDOM
 MIRROR="http://http.debian.net/debian/"
-VERSION=wheezy
-
 
 # Debian package dependencies for the chrooted environment
 GUEST_DEPENDENCIES="build-essential git m4 sudo python wget"
