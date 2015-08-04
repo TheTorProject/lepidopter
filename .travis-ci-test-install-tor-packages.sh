@@ -24,7 +24,7 @@ TEST_COMMAND="sudo apt-get install -q -y"
 function setup_arm_chroot {
     # Create chrooted environment
     sudo mkdir ${CHROOT_DIR}-${CHROOT_ARCH}
-    sudo debootstrap --foreign --no-check-gpg --include=fakeroot,build-essential \
+    sudo debootstrap --foreign --include=fakeroot,build-essential \
         --arch=${CHROOT_ARCH} ${VERSION} ${CHROOT_DIR}-${CHROOT_ARCH} ${MIRROR}
     sudo cp /usr/bin/qemu-arm-static ${CHROOT_DIR}-${CHROOT_ARCH}/usr/bin/
     sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} ./debootstrap/debootstrap --second-stage
@@ -39,7 +39,7 @@ function setup_arm_chroot {
 
     # Install dependencies inside chroot
     sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} apt-get -qq update
-    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} apt-get -qq --allow-unauthenticated install \
+    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} apt-get -qq install \
         -y ${GUEST_DEPENDENCIES}
 
     # Create build dir and copy travis build files to our chroot environment
