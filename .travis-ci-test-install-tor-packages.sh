@@ -21,7 +21,7 @@ VERSION=wheezy
 GUEST_DEPENDENCIES="build-essential git m4 sudo python wget"
 
 # Command used to run the tests
-TEST_COMMAND="sudo apt-get install -qq -y"
+TEST_COMMAND="sudo apt-get install -q -y"
 
 function setup_arm_chroot {
     # Create chrooted environment
@@ -75,5 +75,6 @@ sudo apt-key adv --keyserver ${KEYSERVER} --recv-keys `expr substr ${REPO_KEY} 3
 echo "deb ${TOR_DEB_REPO} ${VERSION} main" | sudo tee -a ${APT_REPO_LIST}
 sudo apt-get -qq update
 ${TEST_COMMAND} ${TESTING_PACKAGES}
-torsocks wget -qO- https://check.torproject.org/ | grep -i congratulations
+echo "End of tests for: $(uname -a)"
+dpkg -l ${TESTING_PACKAGES}
 exit
