@@ -15,7 +15,7 @@ APT_REPO_LIST="/etc/apt/sources.list.d/tor.list"
 CHROOT_DIR=/tmp/$RANDOM
 MIRROR="http://http.debian.net/debian/"
 VERSION=wheezy
-PROPOSED_UPDATES_VERSION=proposed-updates/${VERSION}
+PROPOSED_UPDATES_VERSION="tor-nightly-master/${VERSION}"
 
 # Debian package dependencies for the chrooted environment
 GUEST_DEPENDENCIES="build-essential git m4 sudo python wget"
