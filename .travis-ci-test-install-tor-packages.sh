@@ -75,5 +75,5 @@ sudo apt-key adv --keyserver ${KEYSERVER} --recv-keys `expr substr ${REPO_KEY} 3
 echo "deb ${TOR_DEB_REPO} ${VERSION} main" | sudo tee -a ${APT_REPO_LIST}
 sudo apt-get -qq update
 ${TEST_COMMAND} ${TESTING_PACKAGES}
-# Test if tor works
 torsocks wget -qO- https://check.torproject.org/ | grep -i congratulations
+exit

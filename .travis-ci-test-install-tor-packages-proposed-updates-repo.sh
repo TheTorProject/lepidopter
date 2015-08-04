@@ -76,6 +76,5 @@ echo "deb ${TOR_DEB_REPO} ${PROPOSED_UPDATES_VERSION} main" |
 sudo tee -a ${APT_REPO_LIST}
 sudo apt-get -qq update
 ${TEST_COMMAND} ${TESTING_PACKAGES}
-
-# Test if tor works
 torsocks wget -qO- https://check.torproject.org/ | grep -i congratulations
+exit
