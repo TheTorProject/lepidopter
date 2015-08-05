@@ -14,19 +14,19 @@ APT_REPO_LIST="/etc/apt/sources.list.d/tor.list"
 # Chroot specific variables
 CHROOT_DIR=/tmp/$RANDOM
 MIRROR="http://http.debian.net/debian/"
-VERSION=wheezy
+VERSION=$ENV_VERSION
 PROPOSED_UPDATES_VERSION="tor-nightly-master-${VERSION}"
 
 # Debian package dependencies for the chrooted environment
 GUEST_DEPENDENCIES="build-essential git m4 sudo python wget"
 
 # Command used to run the tests
-TEST_COMMAND="sudo apt-get install -qq -y"
+TEST_COMMAND="sudo apt-get install -q -y"
 
 function setup_arm_chroot {
     # Create chrooted environment
     sudo mkdir ${CHROOT_DIR}-${CHROOT_ARCH}
-    sudo debootstrap --foreign --no-check-gpg --include=fakeroot,build-essential \
+    sudo debootstrap --foreign --include=fakeroot,build-essential \
         --arch=${CHROOT_ARCH} ${VERSION} ${CHROOT_DIR}-${CHROOT_ARCH} ${MIRROR}
     sudo cp /usr/bin/qemu-arm-static ${CHROOT_DIR}-${CHROOT_ARCH}/usr/bin/
     sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} ./debootstrap/debootstrap --second-stage
@@ -37,11 +37,12 @@ function setup_arm_chroot {
     # environment
     echo "export ARCH=${ARCH}" > envvars.sh
     echo "export TRAVIS_BUILD_DIR=${TRAVIS_BUILD_DIR}" >> envvars.sh
+    echo "export VERSION=${ENV_VERSION}" >> envvars.sh
     chmod a+x envvars.sh
 
     # Install dependencies inside chroot
     sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} apt-get -qq update
-    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} apt-get -qq --allow-unauthenticated install \
+    sudo chroot ${CHROOT_DIR}-${CHROOT_ARCH} apt-get -qq install \
         -y ${GUEST_DEPENDENCIES}
 
     # Create build dir and copy travis build files to our chroot environment
@@ -61,14 +62,6 @@ if [ -e "/.chroot_is_done" ]; then
   echo "Running inside chrooted environment"
 
   . ./envvars.sh
-else
-  if [ "${ARCH}" = "arm" ]; then
-    # ARM test run, need to set up chrooted environment first
-      echo "Setting up chrooted  ${CHROOT_ARCH} environment"
-      setup_arm_chroot
-  fi
-fi
-
 echo "Running tests"
 echo "Environment: $(uname -a)"
 sudo apt-key adv --keyserver ${KEYSERVER} --recv-keys `expr substr ${REPO_KEY} 33 8`
@@ -79,4 +72,11 @@ sudo apt-get -qq update
 ${TEST_COMMAND} ${TESTING_PACKAGES}
 echo "End of tests for: $(uname -a)"
 dpkg -l ${TESTING_PACKAGES}
-exit
+else
+  if [ "${ARCH}" = "arm" ]; then
+    # ARM test run, need to set up chrooted environment first
+      echo "Setting up chrooted  ${CHROOT_ARCH} environment"
+      setup_arm_chroot
+  fi
+fi
+
