@@ -62,16 +62,18 @@ if [ -e "/.chroot_is_done" ]; then
   echo "Running inside chrooted environment"
 
   . ./envvars.sh
-echo "Running tests"
-echo "Environment: $(uname -a)"
-sudo apt-key adv --keyserver ${KEYSERVER} --recv-keys `expr substr ${REPO_KEY} 33 8`
-echo "deb ${TOR_DEB_REPO} ${VERSION} main" | sudo tee -a ${APT_REPO_LIST}
-echo "deb ${TOR_DEB_REPO} ${PROPOSED_UPDATES_VERSION} main" |
-sudo tee -a ${APT_REPO_LIST}
-sudo apt-get -qq update
-${TEST_COMMAND} ${TESTING_PACKAGES}
-echo "End of tests for: $(uname -a)"
-dpkg -l ${TESTING_PACKAGES}
+  echo "Running tests"
+  echo "Environment: $(uname -a)"
+  sudo apt-key adv --keyserver ${KEYSERVER} --recv-keys `expr substr ${REPO_KEY} 33 8`
+  echo "deb ${TOR_DEB_REPO} ${VERSION} main" | sudo tee -a ${APT_REPO_LIST}
+  echo "deb ${TOR_DEB_REPO} ${PROPOSED_UPDATES_VERSION} main" |
+  sudo tee -a ${APT_REPO_LIST}
+  sudo apt-get -qq update
+  ${TEST_COMMAND} ${TESTING_PACKAGES}
+  echo "End of tests for: $(uname -a)"
+  dpkg -l ${TESTING_PACKAGES}
+  # Test if tor works
+  torsocks wget -qO- https://check.torproject.org/ | grep -i congratulations
 else
   if [ "${ARCH}" = "arm" ]; then
     # ARM test run, need to set up chrooted environment first
