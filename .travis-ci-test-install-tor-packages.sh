@@ -36,6 +36,7 @@ function setup_arm_chroot {
     # environment
     echo "export ARCH=${ARCH}" > envvars.sh
     echo "export TRAVIS_BUILD_DIR=${TRAVIS_BUILD_DIR}" >> envvars.sh
+    echo "export VERSION=${ENV_VERSION}" >> envvars.sh
     chmod a+x envvars.sh
 
     # Install dependencies inside chroot
@@ -70,6 +71,7 @@ fi
 
 echo "Running tests"
 echo "Environment: $(uname -a)"
+echo "Distributionn ${VERSION}"
 sudo apt-key adv --keyserver ${KEYSERVER} --recv-keys `expr substr ${REPO_KEY} 33 8`
 echo "deb ${TOR_DEB_REPO} ${VERSION} main" | sudo tee -a ${APT_REPO_LIST}
 sudo apt-get -qq update
