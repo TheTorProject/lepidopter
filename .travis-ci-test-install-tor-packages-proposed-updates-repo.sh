@@ -72,8 +72,6 @@ if [ -e "/.chroot_is_done" ]; then
   ${TEST_COMMAND} ${TESTING_PACKAGES}
   echo "End of tests for: $(uname -a)"
   dpkg -l ${TESTING_PACKAGES}
-  # Test if tor works
-  torsocks wget -qO- https://check.torproject.org/ | grep -i congratulations
 else
   if [ "${ARCH}" = "arm" ]; then
     # ARM test run, need to set up chrooted environment first
