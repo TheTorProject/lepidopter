@@ -17,7 +17,7 @@ MIRROR="http://http.debian.net/debian/"
 VERSION=$ENV_VERSION
 
 # Debian package dependencies for the chrooted environment
-GUEST_DEPENDENCIES="build-essential git m4 sudo python wget"
+GUEST_DEPENDENCIES="sudo"
 
 # Command used to run the tests
 TEST_COMMAND="sudo apt-get install -q -y"

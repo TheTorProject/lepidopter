@@ -18,7 +18,7 @@ VERSION=$ENV_VERSION
 PROPOSED_UPDATES_VERSION="tor-nightly-master-${VERSION}"
 
 # Debian package dependencies for the chrooted environment
-GUEST_DEPENDENCIES="build-essential git m4 sudo python wget"
+GUEST_DEPENDENCIES="sudo"
 
 # Command used to run the tests
 TEST_COMMAND="sudo apt-get install -q -y"
