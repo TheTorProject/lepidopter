@@ -17,7 +17,8 @@ Then you should have the image good to go inside your current working directory.
 
 ## Install required packages (Debian)
 ```
-apt-get install vmdebootstrap ```
+apt-get install vmdebootstrap
+```
 
 ## Building lepidopter image
 Run the main build script:
