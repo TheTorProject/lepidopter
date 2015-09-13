@@ -1,21 +1,26 @@
-#/bin/bash
+#!/bin/sh
+set -x
 
 USER="lepidopter"
 PASSWD="lepidopter"
-DEB_RELEASE="wheezy"
+DEB_RELEASE="jessie"
 HOSTNAME_IMG="lepidopter"
-APT_MIRROR="http://http.debian.net/debian/"
-# Uncomment next line to use apt-cache-ng
+ARCH="armel"
+APT_MIRROR="http://httpredir.debian.org/debian"
+# Uncomment next line to use apt-cacher-ng
 #MIRROR="http://localhost:3142/debian"
-MIRROR="http://http.debian.net/debian/"
+MIRROR="http://httpredir.debian.org/debian"
+TODAY=`date +%Y%m%d-%H%M`
 
-sudo vmdebootstrap \
-    --arch armel \
-    --log lepidopter-build-`date +%Y%m%d`.log \
+export APT_MIRROR
+
+vmdebootstrap \
+    --arch ${ARCH} \
+    --log lepidopter-build-${TODAY}-${ARCH}.log \
     --distribution ${DEB_RELEASE} \
     --apt-mirror ${APT_MIRROR} \
     --mirror ${MIRROR} \
-    --image lepidopter-`date +%Y%m%d`.img \
+    --image lepidopter-${TODAY}-${ARCH}.img \
     --size 3900M \
     --bootsize 128M \
     --boottype vfat \
@@ -29,7 +34,6 @@ sudo vmdebootstrap \
     --sudo \
     --hostname ${HOSTNAME_IMG} \
     --enable-dhcp \
-    --foreign /usr/bin/qemu-arm-static \
     --package netbase \
     --package ntp \
     --package less \
@@ -44,4 +48,5 @@ sudo vmdebootstrap \
     --package haveged \
     --package lsb-release \
     --configure-apt \
-    --customize `pwd`/customize
+    --customize `pwd`/customize \
+    "$@"
