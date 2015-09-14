@@ -28,13 +28,18 @@ Then you should have the image good to go inside your current working directory.
 The latest version of vmdebootstrap package is required.
 Currently (as of today 0.11-1) from Debian sid repository is needed.
 
-Optianlly you could install lepidopter dependencies via the setup script
+Optionally you could install lepidopter dependencies via the setup script
 
 #### Install lepidopter dependencies and run setup script
 
 ```
 ./scripts/setup.sh
 ```
+To compress the image as well you should use::
+```
+./scripts/setup.sh --compress
+```
+
 
 ## Building lepidopter image
 
@@ -51,6 +56,9 @@ bmaptool (much faster!)::
 ```
 bmaptool copy --nobmap path_of_your_image.img of=/dev/diskX
 ```
+
+Note: bmaptool can copy compressed images to SD card without the need to 
+decompress first!
 
 dd way::
 
