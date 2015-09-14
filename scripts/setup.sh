@@ -30,5 +30,8 @@ apt-get install -t sid -y vmdebootstrap
 cd $HOME
 git clone https://github.com/TheTorProject/lepidopter.git
 
+# Add loop kernel module required to mount loop devices
+modprobe loop
+
 cd lepidopter/
 ./lepidopter-vmdebootstrap_build.sh
