@@ -28,7 +28,7 @@ set_apt_sources() {
     SUITE="$1"
     PIN_PRIORITY="$2"
     COMPONENTS="main"
-    cat <<EOF > ${ROOTDIR}/etc/apt/sources.list
+    cat <<EOF >> ${ROOTDIR}/etc/apt/sources.list
 # Repository: $SUITE
 deb $APT_MIRROR $SUITE $COMPONENTS
 deb-src $APT_MIRROR $SUITE $COMPONENTS
