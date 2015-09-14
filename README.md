@@ -5,7 +5,15 @@ The generic lepidopter image build script using the debootstap method.
 The image provides a ready to run
 [ooniprobe](https://github.com/TheTorProject/ooni-probe) installation.
 
-## Using vagrant
+## Installation
+
+Clone lepidopter git repository::
+
+```
+git clone https://github.com/TheTorProject/lepidopter
+```
+
+### Using vagrant
 
 If you a vagrant type of person you can just run:
 
@@ -15,47 +23,70 @@ vagrant up
 
 Then you should have the image good to go inside your current working directory.
 
-## Install required packages (Debian)
+### Install required packages (Debian)
+
+The latest version of vmdebootstrap package is required.
+Currently (as of today 0.11-1) from Debian sid repository is needed.
+
+Optianlly you could install lepidopter dependencies via the setup script
+
+#### Install lepidopter dependencies and run setup script
+
 ```
-apt-get install vmdebootstrap
+./scripts/setup.sh
 ```
 
 ## Building lepidopter image
-Run the main build script:
+
+Run the main build script::
+
 ```
 ./lepidopter-vmdebootstrap_build.sh
 ```
 
-## Copying lepidopter image to the SD Card:
+## Copying lepidopter image to the SD Card
+
+bmaptool (much faster!)::
+
+```
+bmaptool copy --nobmap path_of_your_image.img of=/dev/diskX
+```
+
+dd way::
 
 ```
 dd if=path_of_your_image.img of=/dev/diskX bs=1m
 ```
 
-[Detailed documentation](http://elinux.org/RPi_Easy_SD_Card_Setup#SD_card_setup) 
-on how to flash/copy lepidopter Raspberry Pi image to your SD card from different OS.
+[Detailed documentation](http://elinux.org/RPi_Easy_SD_Card_Setup#SD_card_setup)
+on how to flash/copy lepidopter Raspberry Pi image to your SD card from
+different OS.
 
-Lepidopter image default username/password:
+Lepidopter image default username/password::
 
 ```
 username: lepidopter
 password: lepidopter
 ```
 
+**Warning** Note:
+Make sure that upon first login you should change the default username/password
+
 ## Testing image with QEMU
 .. ..
 
-<!--- TODO: Create your own kernel how-to --->
+<!--- TODO: Create your own kernel how-to -->
 Requires a kernel image, build your 
-[own](http://www.cnx-software.com/2011/10/18/raspberry-pi-emulator-in-ubuntu-with-qemu) 
+[own]
+(http://www.cnx-software.com/2011/10/18/raspberry-pi-emulator-in-ubuntu-with-qemu)
 or use cnxsoft's [zImage_3.1.9](http://dl.dropbox.com/u/45842273/zImage_3.1.9)
 
-1) Run lepidopter image in QEMU and redirect SSH connections from host port 2222 
+1) Run lepidopter image in QEMU and redirect SSH connections from host port 2222
 to SSH port on the guest:
 
 ```
-qemu-system-arm -M versatilepb -cpu arm1136-r2 -hda lepidopter.img -kernel zImage_3.1.9 \
--m 256 -append "root=/dev/sda2" -redir tcp:2222::22
+qemu-system-arm -M versatilepb -cpu arm1136-r2 -hda lepidopter.img \
+-kernel zImage_3.1.9 -m 256 -append "root=/dev/sda2" -redir tcp:2222::22
 ```
 
 2) You can now connect to lepidopter SSH (use default password lepidopter):
@@ -64,7 +95,7 @@ qemu-system-arm -M versatilepb -cpu arm1136-r2 -hda lepidopter.img -kernel zImag
 ssh -P 2222 root@localhost
 ```
 
-#### Read this before running ooniprobe!
+## Read this before running ooniprobe!
 
 Running ooniprobe is a potentially risky activity. This greatly depends on the
 jurisdiction in which you are in and which test you are running. It is
@@ -84,7 +115,8 @@ Performs a HTTP GET request over Tor and one over the local network and compares
 
 ```
 make lists -C /usr/share/ooni/inputs/
-ooniprobe blocking/http_requests -f /usr/share/ooni/inputs/input-pack/alexa-top-1k.txt 
+ooniprobe blocking/http_requests -f \
+/usr/share/ooni/inputs/input-pack/alexa-top-1k.txt 
 ```
 
 ### Configuring ooniprobe
@@ -96,6 +128,7 @@ By default ooniprobe will not include personal identifying information in the
 test result, nor create a pcap file. This behavior can be personalized.
 
 ## Links
-* [Build script source](http://blog.kmp.or.at/2012/05/build-your-own-raspberry-pi-image)
+* [Build script source]
+(http://blog.kmp.or.at/2012/05/build-your-own-raspberry-pi-image)
 * [OONI homepage](http://ooni.torproject.org)
 * [ooniprobe documentation](https://ooni.torproject.org/docs/#using-ooniprobe)
