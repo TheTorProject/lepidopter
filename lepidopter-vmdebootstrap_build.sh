@@ -16,11 +16,11 @@ export APT_MIRROR
 
 vmdebootstrap \
     --arch ${ARCH} \
-    --log lepidopter-build-${TODAY}-${ARCH}.log \
+    --log `pwd`/images/lepidopter-build-${TODAY}-${ARCH}.log \
     --distribution ${DEB_RELEASE} \
     --apt-mirror ${APT_MIRROR} \
     --mirror ${MIRROR} \
-    --image lepidopter-${TODAY}-${ARCH}.img \
+    --image `pwd`/images/lepidopter-${TODAY}-${ARCH}.img \
     --size 3900M \
     --bootsize 128M \
     --boottype vfat \
