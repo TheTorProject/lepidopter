@@ -48,7 +48,7 @@ mkdir -p ${ROOTDIR}/var/log/ooni/
 
 # Copy required scripts, cronjobs and config files to lepidopter
 # Rsync Directory/file hieratchy to image
-rsync -avp lepidopter-hf/ ${ROOTDIR}/
+rsync -avp lepidopter-fh/ ${ROOTDIR}/
 
 # Install ooniprobe via setup script
 chroot ${ROOTDIR} /setup-ooniprobe.sh
