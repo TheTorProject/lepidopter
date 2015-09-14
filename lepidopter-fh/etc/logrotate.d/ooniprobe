@@ -1,0 +1,9 @@
+/var/log/ooni/*.log {
+    monthly
+    missingok
+    rotate 2
+    compress
+    delaycompress
+    copytruncate
+    maxsize 10M
+}
