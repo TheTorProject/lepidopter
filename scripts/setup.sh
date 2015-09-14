@@ -24,7 +24,7 @@ set_apt_sources sid 50
 apt-get update
 
 # Bug: Do not install qemu-utils via the sid repo
-ept-get install -y qemu-utils
+apt-get install -y qemu-utils
 apt-get install -t sid -y vmdebootstrap
 
 cd $HOME
