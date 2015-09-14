@@ -1,216 +1,62 @@
 #!/bin/sh
 
+set -x
 set -e # Exit on first error
 
-OONIPROBE_PATH="/root/ooni-probe"
 ROOTDIR="$1"
 
 export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
 export LC_ALL=C LANGUAGE=C LANG=C
 
-# Install non-free binary blob needed to boot Raspberry Pi.  
-# This install a kernel somewhere too.
+# Install non-free binary blob and kernel needed to boot Raspberry Pi
 wget https://raw.github.com/Hexxeh/rpi-update/master/rpi-update \
-    -O ${ROOTDIR}/usr/bin/rpi-update
-chmod a+x ${ROOTDIR}/usr/bin/rpi-update
+    -O ${ROOTDIR}/usr/local/sbin/rpi-update
+chmod a+x ${ROOTDIR}/usr/local/sbin/rpi-update
 mkdir -p ${ROOTDIR}/lib/modules
 touch ${ROOTDIR}/boot/start.elf
-# Disable self update, issues with curl and ca-certificates in chroot
+# Do not try to update itself, avoid making backups, skip warnings
 export UPDATE_SELF=0 SKIP_BACKUP=1 SKIP_WARNING=1
 chroot ${ROOTDIR} rpi-update
 
-# lepidopter raspi-config
-wget -O ${ROOTDIR}/sbin/raspi-config \
-https://github.com/anadahz/raspi-config_lepidopter/raw/master/raspi-config
-chmod +x ${ROOTDIR}/sbin/raspi-config
-
-# ooniprobe setup script
-cat <<EOF > ${ROOTDIR}/setup-ooniprobe.sh
-#!/bin/bash
-
-# Building ooniprobe
-git clone https://github.com/TheTorProject/ooni-probe.git ${OONIPROBE_PATH}
-cd ${OONIPROBE_PATH}
-git checkout feature/install
-# Install ooniprobe dependencies
-sh scripts/install.sh
-
-history -c
-EOF
-chmod +x ${ROOTDIR}/setup-ooniprobe.sh
-
-chroot ${ROOTDIR} /setup-ooniprobe.sh
-rm ${ROOTDIR}/setup-ooniprobe.sh
-
-cat <<EOF > ${ROOTDIR}/etc/ooniconfig.sh
-OONI_HOME=/data/probe-ops/ooni/
-PROBE_OPS=/data/probe-ops/
-EOF
-chmod +x ${ROOTDIR}/etc/ooniconfig.sh
-
-mkdir -p $ROOTDIR/data/probe-ops/logs/
-mkdir -p $ROOTDIR/data/probe-ops/ooni/
-mkdir -p $ROOTDIR/data/probe-ops/ooni/reports
-mkdir -p $ROOTDIR/data/probe-ops/ooni/decks
-
-# ooniprobe deck creation script
-cat <<EOF > ${ROOTDIR}/data/probe-ops/rotate-logs.sh
-source /etc/ooniconfig.sh
-
-echo "$(date) Rotating logs" >> $PROBE_OPS/logs/cronjobs.log
-mv $PROBE_OPS/logs/cronjobs.log.1
-echo "$(date) done rotating logs" > $PROBE_OPS/logs/cronjobs.log
-EOF
-chmod +x ${ROOTDIR}/data/probe-ops/rotate-logs.sh
-
-
-# ooniprobe deck creation script
-cat <<EOF > ${ROOTDIR}/data/probe-ops/ooni/update-deck.sh
-source /etc/ooniconfig.sh
-
-echo "$(date) Updating deck" >> $PROBE_OPS/logs/cronjobs.log
-# Build the deck and configure it 
-cd $OONI_HOME
-OONI_DECK=$(oonideckgen -o decks/ | tee -a $PROBE_OPS/logs/cronjobs.log | grep ^ooniprobe | cut -d ' ' -f3)
-echo "PROBE_OPS=$PROBE_OPS" > /etc/ooniconfig.sh.tmp
-echo "OONI_HOME=$OONI_HOME" >> /etc/ooniconfig.sh.tmp
-echo "OONI_DECK=$OONI_DECK" >> /etc/ooniconfig.sh.tmp
-mv /etc/ooniconfig.sh.tmp /etc/ooniconfig.sh
-chmod +x /etc/ooniconfig.sh
-echo "$(date) done updating deck" >> $PROBE_OPS/logs/cronjobs.log
-EOF
-chmod +x ${ROOTDIR}/data/probe-ops/ooni/update-deck.sh
-
-chroot ${ROOTDIR} /data/probe-ops/ooni/update-deck.sh
-
-# ooniprobe run command
-cat <<EOF > ${ROOTDIR}/data/probe-ops/ooni/run-ooniprobe.sh
-source /etc/ooniconfig.sh
-cd $OONI_HOME/reports/
-echo "$(date) running ooniprobe" >> $PROBE_OPS/logs/cronjobs.log
-ooniprobe -i $OONI_DECK | tee -a $PROBE_OPS/logs/cronjobs.log
-EOF
-chmod +x ${ROOTDIR}/data/probe-ops/ooni/run-ooniprobe.sh
-
-# update ooniprobe command
-cat <<EOF > ${ROOTDIR}/data/probe-ops/ooni/update-ooniprobe.sh
-source /etc/ooniconfig.sh
-pip -q install ooniprobe --upgrade
-ooniresources --update-inputs
-EOF
-chmod +x ${ROOTDIR}/data/probe-ops/ooni/update-ooniprobe.sh
-
-# Adding module for hardware RNG
+# Add module for hardware RNG
 cat <<EOF >> ${ROOTDIR}/etc/modules
 bcm2708_rng
 EOF
 
-# Regenerate SSH keys SYSV script
-cat <<'EOF' > ${ROOTDIR}/etc/init.d/regenerate_ssh_host_keys
-#!/bin/sh
-### BEGIN INIT INFO
-# Provides:          regenerate_ssh_host_keys
-# Required-Start:    $local_fs $remote_fs 
-# Required-Stop:     $local_fs $remote_fs
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Regenerate ssh host keys
-# Description: This script will regenerate the host SSH keys.
-### END INIT INFO
-
-. /lib/lsb/init-functions
-
-set -e
-
-case "$1" in
-  start)
-    log_daemon_msg "Regenerating ssh host keys..."
-    dpkg-reconfigure openssh-server
-    log_daemon_msg "Remove regenerate_ssh_host_keys SYSV links..."
-    update-rc.d regenerate_ssh_host_keys remove
-    log_daemon_msg "Enable SSH Service..."
-    update-rc.d ssh enable
-    log_daemon_msg "Start SSH Daemon..."
-    service ssh start
-    log_end_msg $?
-    ;;
-  *)
-    log_success_msg "Usage: $0 start "
-    exit 3
-    ;;
-esac
-
-exit 0
+# Add an apt repository with apt preferences
+set_apt_sources() {
+    SUITE="$1"
+    PIN_PRIORITY="$2"
+    COMPONENTS="main"
+    cat <<EOF > ${ROOTDIR}/etc/apt/sources.list
+# Repository: $SUITE
+deb $APT_MIRROR $SUITE $COMPONENTS
+deb-src $APT_MIRROR $SUITE $COMPONENTS
 EOF
+    cat <<EOF > ${ROOTDIR}/etc/apt/preferences.d/${SUITE}.pref
+Package: *
+Pin: release n=$SUITE
+Pin-Priority: $PIN_PRIORITY
+EOF
+}
+
+# Add stretch Debian repo with pin-priority 50
+set_apt_sources stretch 50
+
+# Create ooniprobe log directory
+mkdir -p ${ROOTDIR}/var/log/ooni/
+
+# Copy required scripts, cronjobs and config files to lepidopter
+# Rsync Directory/file hieratchy to image
+rsync -avp lepidopter-hf/ ${ROOTDIR}/
+
+# Install ooniprobe via setup script
+chroot ${ROOTDIR} /setup-ooniprobe.sh
+rm ${ROOTDIR}/setup-ooniprobe.sh
 
 # Remove SSH host keys and add regenerate_ssh_host_keys SYSV script
-cat <<'EOF' > ${ROOTDIR}/remove_ssh_host_keys.sh
-#!/bin/bash
-# Re-enables at first boot after regeneration of ssh host keys
-update-rc.d ssh disable
-rm -f /etc/ssh/ssh_host*
-chmod +x /etc/init.d/regenerate_ssh_host_keys
-update-rc.d regenerate_ssh_host_keys defaults
-history -c
-EOF
-
-chmod +x ${ROOTDIR}/remove_ssh_host_keys.sh
 chroot ${ROOTDIR} /remove_ssh_host_keys.sh
 rm ${ROOTDIR}/remove_ssh_host_keys.sh
 
-
-# Add daily cronjob
-# Run ooniprobe with the configured deck every day
-cat <<'EOF' > ${ROOTDIR}/etc/cron.daily/run_ooniprobe_deck
-#!/bin/bash
-/data/probe-ops/ooni/run-ooniprobe.sh
-EOF
-chmod +x ${ROOTDIR}/etc/cron.daily/run_ooniprobe_deck
-
-# Add weekly cronjob
-# Update the inputs every week
-cat <<'EOF' > ${ROOTDIR}/etc/cron.weekly/update_deck
-#!/bin/bash
-/date/probe-ops/rotate-logs.sh
-EOF
-chmod +x ${ROOTDIR}/etc/cron.weekly/update_deck
-
-# Add weekly cronjob
-# Rotate the logs
-cat <<'EOF' > ${ROOTDIR}/etc/cron.weekly/rotate_logs
-#!/bin/bash
-/date/probe-ops/rotate-logs.sh
-EOF
-chmod +x ${ROOTDIR}/etc/cron.weekly/rotate_logs
-
-# Add weekly cronjob
-# Update ooniprobe weekly
-cat <<'EOF' > ${ROOTDIR}/etc/cron.weekly/update_ooniprobe
-#!/bin/bash
-/data/probe-ops/ooni/update-ooniprobe.sh
-EOF
-
-chmod +x ${ROOTDIR}/etc/cron.weekly/update_ooniprobe
-
-# Regenerate the test deck when changing network
-cat <<'EOF' > ${ROOTDIR}/etc/network/if-up.d/run_oonideckgen
-#!/bin/bash
-# Run oonideckgen on network change
-
-set -e
-
-# Exit for loopback change
-if [ "$IFACE" = lo ] ; then
-	  exit 0
-  fi
-
-/data/probe-ops/ooni/update-deck.sh
-
-exit 0
-EOF
-
-chmod +x ${ROOTDIR}/etc/network/if-up.d/run_oonideckgen
-
 echo "Customize script finished successfully."
-
 exit 0
