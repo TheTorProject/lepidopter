@@ -1,0 +1,34 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          regenerate_ssh_host_keys
+# Required-Start:    $local_fs $remote_fs 
+# Required-Stop:     $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Regenerate ssh host keys
+# Description: This script will regenerate the host SSH keys.
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+set -e
+
+case "$1" in
+  start)
+    log_daemon_msg "Regenerating ssh host keys..."
+    dpkg-reconfigure openssh-server
+    log_daemon_msg "Remove regenerate_ssh_host_keys SYSV links..."
+    update-rc.d regenerate_ssh_host_keys remove
+    log_daemon_msg "Enable SSH Service..."
+    update-rc.d ssh enable
+    log_daemon_msg "Start SSH Daemon..."
+    service ssh start
+    log_end_msg $?
+    ;;
+  *)
+    log_success_msg "Usage: $0 start "
+    exit 3
+    ;;
+esac
+
+exit 0
