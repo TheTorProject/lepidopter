@@ -1,9 +1,68 @@
 # lepidopter - OONI powered Raspberry Pi image
 
 ## Description
-The generic lepidopter image build script using the debootstap method.
+The generic lepidopter image build script using the vmdebootstap method.
 The image provides a ready to run
-[ooniprobe](https://github.com/TheTorProject/ooni-probe) installation.
+[ooniprobe](https://github.com/TheTorProject/ooni-probe) powered Debian jessie
+distribution.
+
+### Lepidopter repository tree structure
+
+```
+├── customize       customize script used to customize lepidopter image
+├── images          where the build Lepidopter images created
+├── lepidopter-fh   Lepidopter image filesystem hierarchy
+│   ├── etc
+│   │   ├── cron.daily
+│   │   │   ├── run_ooniprobe_deck
+│   │   │   └── upload_reports
+│   │   ├── cron.weekly
+│   │   │   ├── remove_inc_reports
+│   │   │   ├── update_deck
+│   │   │   └── update_ooniprobe
+│   │   ├── init.d
+│   │   │   └── regenerate_ssh_host_keys
+│   │   ├── logrotate.d
+│   │   │   └── ooniprobe
+│   │   ├── network
+│   │   │   └── if-up.d
+│   │   │       └── run_oonideckgen
+│   │   └── ooniprobe
+│   │       ├── ooniconfig.sh
+│   │       ├── ooniprobe.conf
+│   │       └── oonireport.conf
+│   ├── opt
+│   │   └── ooni
+│   │       ├── decks
+│   │       ├── remove-inc-reports.sh
+│   │       ├── reports
+│   │       ├── run-ooniprobe.sh
+│   │       ├── update-deck.sh
+│   │       ├── update-ooniprobe.sh
+│   │       └── upload-reports.sh
+│   ├── remove_ssh_host_keys.sh
+│   └── setup-ooniprobe.sh
+├── lepidopter-vmdebootstrap_build.sh   main lepidopter vmdebootstrap script
+├── scripts         external scripts 
+│   └── setup.sh    install dependencies needed to create and build the image 
+```
+
+### Supported Hardware
+
+The image is targetted mainly for the Raspberry Pi devices currently all
+hardware variant are being supported (armel architecture).
+It should be fairly easy to create the same image for different
+architectures, and OS distributions.
+
+Supported hardware (tested):
+* Raspberry Pi 1 Model B
+* Raspberry Pi 1 Model B+
+* Raspberry Pi 2 Model B
+
+Possible supported hardware (untested):
+* Beaglebone
+* Cubietruck
+* Wandboard
 
 ## Installation
 
@@ -39,7 +98,6 @@ To compress the image as well you should use::
 ```
 ./scripts/setup.sh --compress
 ```
-
 
 ## Building lepidopter image
 
@@ -103,7 +161,7 @@ qemu-system-arm -M versatilepb -cpu arm1136-r2 -hda lepidopter.img \
 ssh -P 2222 root@localhost
 ```
 
-## Read this before running ooniprobe!
+## Read this before running Lepidopter!
 
 Running ooniprobe is a potentially risky activity. This greatly depends on the
 jurisdiction in which you are in and which test you are running. It is
@@ -113,30 +171,10 @@ network measurement tests is something considered to be illegal in your country
 then you could be spotted.
 
 Futhermore, ooniprobe takes no precautions to protect the install target machine
-from forensics analysis.  If the fact that you have installed or used ooni
+from forensics analysis. If the fact that you have installed or used ooni
 probe is a liability for you, please be aware of this risk.
 
-## Quick run ooniprobe
-
-Performs a HTTP GET request over Tor and one over the local network and compares
- the two results using the Alexa top 1000 URLs list.
-
-```
-make lists -C /usr/share/ooni/inputs/
-ooniprobe blocking/http_requests -f \
-/usr/share/ooni/inputs/input-pack/alexa-top-1k.txt 
-```
-
-### Configuring ooniprobe
-
-You may edit the configuration for ooniprobe by editing the configuration file
-found inside of `~/.ooni/ooniprobe.conf`.
-
-By default ooniprobe will not include personal identifying information in the
-test result, nor create a pcap file. This behavior can be personalized.
-
 ## Links
-* [Build script source]
-(http://blog.kmp.or.at/2012/05/build-your-own-raspberry-pi-image)
+* [vmdebootstrap](http://liw.fi/vmdebootstrap/)
 * [OONI homepage](http://ooni.torproject.org)
 * [ooniprobe documentation](https://ooni.torproject.org/docs/#using-ooniprobe)
