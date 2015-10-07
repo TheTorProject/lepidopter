@@ -64,6 +64,6 @@ cd lepidopter/
 ./lepidopter-vmdebootstrap_build.sh
 
 
-if [ "$compression = "1" ]; then
+if [ $compression = "1" ]; then
     compress
 fi
