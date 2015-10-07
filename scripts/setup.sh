@@ -1,8 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
 APT_MIRROR="http://httpredir.debian.org/debian"
 
-while [ $1 != "" ]; do
+function usage() {
+    echo "usage: setup.sh [options]"
+    echo "with no options the script installs the dependencies to run and build
+    lepidopter image"
+    echo "-c, --compress compress lepidopter image with pxz"
+}
+
+while [ $# -ne 0 ]; do
     case $1 in
         -c | --compress)        shift
                                 compression=1
@@ -15,13 +22,6 @@ while [ $1 != "" ]; do
     esac
     shift
 done
-
-function usage(){
-    echo "usage: setup.sh [options]"
-    echo "with no options the script installs the dependencies to run and build
-    lepidopter image"
-    echo "-c, --compress compress lepidopter image with pxz"
-}
 
 # Compress lepidopter img
 function compress() {
