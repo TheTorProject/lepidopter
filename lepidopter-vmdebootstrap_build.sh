@@ -47,6 +47,7 @@ vmdebootstrap \
     --package curl \
     --package haveged \
     --package lsb-release \
+    --package tcpdump \
     --configure-apt \
     --customize `pwd`/customize \
     "$@"
