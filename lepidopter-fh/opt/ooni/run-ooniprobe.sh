@@ -4,10 +4,9 @@ source /etc/ooniprobe/oonideckconfig
 cd ${OONI_REPORTS}
 echo "$(date) running ooniprobe" >> ${OONI_CRONJOBS_LOG}
 
-if [ -z "${OONI_DECK}" ]
-then
-    /opt/ooni/update-deck.sh
-    source /etc/ooniprobe/ooniconfig.sh
+if [ -z "${OONI_DECK}" ]; then
+   /opt/ooni/update-deck.sh
+   source /etc/ooniprobe/ooniconfig.sh
 fi
 
 flock -n /run/ooniprobe.daily.lock -c \
