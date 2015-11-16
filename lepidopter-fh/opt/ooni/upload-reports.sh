@@ -1,4 +1,4 @@
 #!/bin/bash
-echo "$(date) uploading ooniprobe reports" >> /var/log/ooni/oonireport.log
-oonireport -f /etc/ooniprobe/oonireport.conf upload \
-    >> /var/log/ooni/oonireport.log
+source /etc/ooniprobe/ooniconfig.sh
+echo "$(date) uploading ooniprobe reports" >> ${OONIREPORT_LOG}
+oonireport -f /etc/ooniprobe/oonireport.conf upload >> ${OONIREPORT_LOG}
