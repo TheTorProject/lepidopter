@@ -1,5 +1,5 @@
 #!/bin/bash
-oonireport -f /etc/ooniprobe/ooniprobe.conf status |
+oonireport -f ${OONIREPORT_CONFIG} status |
 sed -n -e '/^Incomplete reports/,$s/^\* //p' | while read path; do
     rm -f "$path"
 done
