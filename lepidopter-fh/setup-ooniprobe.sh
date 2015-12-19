@@ -1,13 +1,14 @@
 #!/bin/bash
+set -ex
+
 # Install golang-go
 apt-get update
 apt-get -y -t stretch install golang-go
 go version
 
-# Checkout ooniprobe git
-git clone https://github.com/TheTorProject/ooni-probe.git \
-/opt/ooni/ooni-probe-git/
-cd /opt/ooni/ooni-probe-git/
+# Install pip and ooniprobe dependencies
+apt-get -y install openssl libssl-dev libyaml-dev libsqlite3-dev \
+libffi-dev python-pip libpcap0.8-dev
 # Install ooniprobe
-./scripts/install.sh
+pip install git+https://github.com/TheTorProject/ooni-probe.git
 history -c

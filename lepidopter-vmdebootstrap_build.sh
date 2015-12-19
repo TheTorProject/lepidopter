@@ -1,5 +1,5 @@
 #!/bin/sh
-set -x
+set -ex
 
 USER="lepidopter"
 PASSWD="lepidopter"
