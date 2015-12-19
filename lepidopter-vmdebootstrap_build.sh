@@ -48,6 +48,7 @@ vmdebootstrap \
     --package haveged \
     --package lsb-release \
     --package tcpdump \
+    --package localepurge \
     --configure-apt \
     --customize `pwd`/customize \
     "$@"

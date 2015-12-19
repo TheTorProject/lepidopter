@@ -54,6 +54,10 @@ rsync -avp lepidopter-fh/ ${ROOTDIR}/
 chroot ${ROOTDIR} /setup-ooniprobe.sh
 rm ${ROOTDIR}/setup-ooniprobe.sh
 
+# Execute cleanup script
+chroot ${ROOTDIR} /cleanup.sh
+rm ${ROOTDIR}/cleanup.sh
+
 # Remove SSH host keys and add regenerate_ssh_host_keys SYSV script
 chroot ${ROOTDIR} /remove_ssh_host_keys.sh
 rm ${ROOTDIR}/remove_ssh_host_keys.sh
