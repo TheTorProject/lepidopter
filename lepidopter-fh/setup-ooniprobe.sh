@@ -15,7 +15,7 @@ apt-get -y -t ${DEB_RELEASE}-backports install golang-go
 go version
 
 # Install pluggable transports and dependencies
-apt-get -y install libgmp-dev
+apt-get -y install libgmp-dev pip
 # Install obfsproxy and fteproxy
 pip install obfsproxy fteproxy
 # Build meek-client
@@ -24,7 +24,7 @@ go get git.torproject.org/pluggable-transports/meek.git/meek-client
 cp $GOPATH/bin/meek-client /usr/local/bin/meek-client
 chmod +x /usr/local/bin/meek-client
 rm -rf $GOPATH
-# Install pip and ooniprobe dependencies
+# Install ooniprobe dependencies
 apt-get -y install openssl libssl-dev libyaml-dev libsqlite3-dev libffi-dev \
 python-pip libpcap0.8-dev libgeoip-dev libdumbnet-dev tor tor-geoipdb python-dev
 # Install ooniprobe
