@@ -43,7 +43,7 @@ EOF
 }
 
 echo "Add Debian ${DEB_RELEASE}-backports repository"
-set_apt_sources ${DEB_RELEASE}-backport
+set_apt_sources ${DEB_RELEASE}-backports
 
 # Create ooniprobe log directory
 mkdir -p ${ROOTDIR}/var/log/ooni/
