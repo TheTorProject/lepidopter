@@ -1,5 +1,5 @@
 #!/bin/sh
-set -ex
+set -exa
 
 USER="lepidopter"
 PASSWD="lepidopter"
@@ -11,8 +11,6 @@ APT_MIRROR="http://httpredir.debian.org/debian"
 #MIRROR="http://localhost:3142/debian"
 MIRROR="http://httpredir.debian.org/debian"
 TODAY=`date +%Y%m%d-%H%M`
-
-export APT_MIRROR
 
 vmdebootstrap \
     --arch ${ARCH} \
