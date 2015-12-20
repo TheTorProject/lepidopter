@@ -32,7 +32,7 @@ set_apt_sources() {
 # Repository: $SUITE
 deb $APT_MIRROR $SUITE $COMPONENTS
 EOF
-    if [ -n "$COMPONENTS" ]
+    if [ -n "$PIN_PRIORITY" ]
       then
         cat <<EOF > ${ROOTDIR}/etc/apt/preferences.d/${SUITE}.pref
 Package: *
