@@ -16,7 +16,7 @@ go version
 
 # Install pip and ooniprobe dependencies
 apt-get -y install openssl libssl-dev libyaml-dev libsqlite3-dev libffi-dev \
-python-pip libpcap0.8-dev libgeoip-dev libdumbnet-dev tor tor-geoipdb
+python-pip libpcap0.8-dev libgeoip-dev libdumbnet-dev tor tor-geoipdb python-dev
 # Install ooniprobe
 pip install git+https://github.com/TheTorProject/ooni-probe.git
 history -c
