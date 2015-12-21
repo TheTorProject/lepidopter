@@ -22,7 +22,7 @@ vmdebootstrap \
     --mirror ${MIRROR} \
     --image `pwd`/images/lepidopter-${TODAY}-${ARCH}.img \
     --size 3900M \
-    --bootsize 128M \
+    --bootsize 64M \
     --boottype vfat \
     --log-level debug \
     --verbose \
