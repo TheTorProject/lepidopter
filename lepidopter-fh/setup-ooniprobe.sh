@@ -26,6 +26,8 @@ libpcap0.8-dev libgeoip-dev libdumbnet-dev tor tor-geoipdb python-dev \
 libgmp-dev python-pip
 # Install obfsproxy and fteproxy
 pip install obfsproxy fteproxy
+# Install obfs4proxy
+apt-get -y install -t stretch obfs4proxy
 # Install ooniprobe
 # Remove previous version of pyasn1
 apt-get -y remove python-pyasn1
