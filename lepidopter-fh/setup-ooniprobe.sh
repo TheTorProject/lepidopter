@@ -27,5 +27,7 @@ libgmp-dev python-pip
 # Install obfsproxy and fteproxy
 pip install obfsproxy fteproxy
 # Install ooniprobe
+# Remove previous version of pyasn1
+apt-get -y remove python-pyasn1
 pip install git+https://github.com/TheTorProject/ooni-probe.git
 history -c
