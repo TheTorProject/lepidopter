@@ -13,10 +13,11 @@ distribution.
 ├── images          where the build Lepidopter images created
 ├── lepidopter-fh   Lepidopter image filesystem hierarchy
 │   ├── etc
-│   │   ├── cron.daily
+│   │   ├── cron.daily      daily cronjobs
+│   │   │   ├── remove_upl_reports
 │   │   │   ├── run_ooniprobe_deck
 │   │   │   └── upload_reports
-│   │   ├── cron.weekly
+│   │   ├── cron.weekly     weekly cronjobs
 │   │   │   ├── remove_inc_reports
 │   │   │   ├── update_deck
 │   │   │   └── update_ooniprobe
