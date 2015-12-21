@@ -21,7 +21,7 @@ vmdebootstrap \
     --apt-mirror ${APT_MIRROR} \
     --mirror ${MIRROR} \
     --image `pwd`/images/lepidopter-${TODAY}-${ARCH}.img \
-    --size 3900M \
+    --size 3950M \
     --bootsize 64M \
     --boottype vfat \
     --log-level debug \
