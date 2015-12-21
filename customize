@@ -31,17 +31,21 @@ set_apt_sources() {
     cat <<EOF >> ${ROOTDIR}/etc/apt/sources.list
 # Repository: $SUITE
 deb $APT_MIRROR $SUITE $COMPONENTS
-deb-src $APT_MIRROR $SUITE $COMPONENTS
 EOF
-    cat <<EOF > ${ROOTDIR}/etc/apt/preferences.d/${SUITE}.pref
+    if [ -n "$PIN_PRIORITY" ]
+      then
+        cat <<EOF > ${ROOTDIR}/etc/apt/preferences.d/${SUITE}.pref
 Package: *
 Pin: release n=$SUITE
 Pin-Priority: $PIN_PRIORITY
 EOF
+    fi
 }
 
-# Add stretch Debian repo with pin-priority 50
-set_apt_sources stretch 50
+echo "Add Debian ${DEB_RELEASE}-backports repository"
+set_apt_sources ${DEB_RELEASE}-backports
+echo "Add Debian stretch repository"
+set_apt_sources stretch 100
 
 # Create ooniprobe log directory
 mkdir -p ${ROOTDIR}/var/log/ooni/
