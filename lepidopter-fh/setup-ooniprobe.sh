@@ -22,8 +22,8 @@ chmod +x /usr/local/bin/meek-client
 rm -rf $GOPATH
 # Install ooniprobe and pluggable transports dependencies
 apt-get -y install openssl libssl-dev libyaml-dev libsqlite3-dev libffi-dev \
-libpcap0.8-dev libgeoip-dev libdumbnet-dev tor tor-geoipdb python-dev \
-libgmp-dev python-pip
+    libpcap0.8-dev libgeoip-dev libdumbnet-dev tor tor-geoipdb python-dev \
+    libgmp-dev python-pip
 # Install obfsproxy and fteproxy
 pip install obfsproxy fteproxy
 # Install obfs4proxy
