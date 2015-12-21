@@ -15,7 +15,7 @@ apt-get -y -t ${DEB_RELEASE}-backports install golang-go
 go version
 
 # Build meek-client
-export GOPATH=$($mktmp -d)
+export GOPATH=$(mktemp -d)
 go get git.torproject.org/pluggable-transports/meek.git/meek-client
 cp $GOPATH/bin/meek-client /usr/local/bin/meek-client
 chmod +x /usr/local/bin/meek-client
