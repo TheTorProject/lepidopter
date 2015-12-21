@@ -19,8 +19,8 @@ vmdebootstrap \
     --apt-mirror ${APT_MIRROR} \
     --mirror ${MIRROR} \
     --image `pwd`/images/lepidopter-${TODAY}-${ARCH}.img \
-    --size 3900M \
-    --bootsize 128M \
+    --size 3950M \
+    --bootsize 64M \
     --boottype vfat \
     --log-level debug \
     --verbose \
@@ -46,6 +46,7 @@ vmdebootstrap \
     --package haveged \
     --package lsb-release \
     --package tcpdump \
+    --package localepurge \
     --configure-apt \
     --customize `pwd`/customize \
     "$@"
