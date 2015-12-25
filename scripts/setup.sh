@@ -74,3 +74,6 @@ cd lepidopter/
 if [ $compression = "1" ]; then
     compress
 fi
+
+# Remove all device mappings
+dmsetup remove_all
