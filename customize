@@ -66,5 +66,8 @@ rm ${ROOTDIR}/cleanup.sh
 chroot ${ROOTDIR} /remove_ssh_host_keys.sh
 rm ${ROOTDIR}/remove_ssh_host_keys.sh
 
+# Kill all remaining tor processes
+killall tor
+
 echo "Customize script finished successfully."
 exit 0
