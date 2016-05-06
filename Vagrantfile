@@ -8,9 +8,8 @@ SETUP
 
 Vagrant.configure("2") do |config|
 
-  # Debian wheezy box
-  config.vm.box = "trusty32"
-  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-i386-vagrant-disk1.box"
+  # Debian jessie box
+  config.vm.box = "debian/contrib-jessie64"
 
   config.vm.hostname = "lepidopter"
 
