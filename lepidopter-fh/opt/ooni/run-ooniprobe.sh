@@ -9,7 +9,6 @@ if [ -z "${OONI_DECK}" ]; then
 fi
 
 cd ${OONI_REPORTS}
-echo "$(date) running ooniprobe" >> ${OONI_CRONJOBS_LOG}
 
 ooniprobe --anotations=platform:lepidopter --confifile=${OONI_CONFIG} \
-    --testdeck=${OONI_DECK} >> ${OONI_CRONJOBS_LOG}
+    --testdeck=${OONI_DECK}

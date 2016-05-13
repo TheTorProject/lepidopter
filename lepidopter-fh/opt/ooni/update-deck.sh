@@ -9,7 +9,4 @@ OONI_DECKGEN=$( oonideckgen --output=${OONI_HOME}/decks/ |
 if [ -n "$OONI_DECKGEN" ]; then
 	echo "#ooniprobe deck update: $(date)" > ${OONI_DECK_CONFIG}
 	echo "OONI_DECK=${OONI_DECKGEN}" >> ${OONI_DECK_CONFIG}
-	echo "$(date) done updating deck" >> ${OONI_CRONJOBS_LOG}
-else
-	echo "$(date) oonideckgen error" >> ${OONI_CRONJOBS_LOG}
 fi

@@ -8,6 +8,6 @@ exl_files=($(oonireport -f ${OONIREPORT_CONFIG} status | sed -n 's/^\* //p'))
 
 for p in `find ${OONI_REPORTS} -name '*.yamloo' -type f`; do
      if ! [[ " ${exl_files[@]} " =~ " ${p} " ]]; then
-         rm --verbose ${p} >> ${OONI_CRONJOBS_LOG}
+         rm ${p}
      fi
 done
