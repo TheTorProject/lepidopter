@@ -10,8 +10,8 @@ apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-keys ${TOR_REPO_GPG
 echo "deb ${TOR_DEB_REPO} ${DEB_RELEASE} main" > ${TOR_DEB_REPO_SRC_LIST}
 
 # Install ooniprobe and pluggable transports dependencies
-apt-get -y install openssl libssl-dev libyaml-dev libffi-dev libpcap0.8-dev \
-    libgeoip-dev libdumbnet-dev tor tor-geoipdb python-dev libgmp-dev python-pip
+apt-get -y install openssl libssl-dev libyaml-dev libffi-dev libpcap-dev tor \
+    libgeoip-dev libdumbnet-dev python-dev python-pip
 # Install golang-go obfs4proxy obfsproxy and fteproxy
 # Package obfs4proxy introduces a lite version of meek
 apt-get -y install -t stretch golang-go obfs4proxy obfsproxy fteproxy
