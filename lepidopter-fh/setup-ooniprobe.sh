@@ -23,7 +23,7 @@ go version
 # Remove previous system versions of pyasn1 and python-cryptography
 apt-get -y remove python-pyasn1 python-cryptography
 # Install ooniprobe
-pip install git+https://github.com/TheTorProject/ooni-probe.git
+pip install ooniprobe
 
 # Stop running tor service that can lead to a busy chroot mount
 service tor stop
