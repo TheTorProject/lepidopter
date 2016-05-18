@@ -12,7 +12,11 @@ distribution.
 ├── customize       customize script used to customize lepidopter image
 ├── images          where the build Lepidopter images created
 ├── lepidopter-fh   Lepidopter image filesystem hierarchy
+│   ├── cleanup.sh  cleanup script
 │   ├── etc
+│   │   ├── apt
+│   │   │   └── apt.conf.d
+│   │   │       └── 02compress-indexes
 │   │   ├── cron.daily      daily cronjobs
 │   │   │   ├── remove_upl_reports
 │   │   │   ├── run_ooniprobe_deck
@@ -21,6 +25,9 @@ distribution.
 │   │   │   ├── remove_inc_reports
 │   │   │   ├── update_deck
 │   │   │   └── update_ooniprobe
+│   │   ├── dpkg
+│   │   │   └── dpkg.cfg.d
+│   │   │       └── 01_nodoc
 │   │   ├── init.d
 │   │   │   └── regenerate_ssh_host_keys
 │   │   ├── logrotate.d
@@ -30,19 +37,24 @@ distribution.
 │   │   │       └── run_oonideckgen
 │   │   └── ooniprobe
 │   │       ├── ooniconfig.sh
+│   │       ├── oonideckconfig
 │   │       ├── ooniprobe.conf
 │   │       └── oonireport.conf
 │   ├── opt
 │   │   └── ooni
 │   │       ├── decks
 │   │       ├── remove-inc-reports.sh
+│   │       ├── remove-upl-reports.sh
 │   │       ├── reports
 │   │       ├── run-ooniprobe.sh
 │   │       ├── update-deck.sh
 │   │       ├── update-ooniprobe.sh
 │   │       └── upload-reports.sh
 │   ├── remove_ssh_host_keys.sh
-│   └── setup-ooniprobe.sh
+│   ├── setup-ooniprobe.sh
+│   └── var
+│       └── log
+│           └── ooni
 ├── lepidopter-vmdebootstrap_build.sh   main lepidopter vmdebootstrap script
 ├── scripts         external scripts 
 │   └── setup.sh    install dependencies needed to create and build the image 
@@ -98,6 +110,12 @@ Optionally you could install lepidopter dependencies via the setup script
 To compress the image as well you should use::
 ```
 ./scripts/setup.sh --compress
+```
+
+To perfom an unattended lepidopter image build you could use this in Debian::
+
+```
+DEBIAN_FRONTEND=noninteractive ./scripts/setup.sh
 ```
 
 ## Building lepidopter image

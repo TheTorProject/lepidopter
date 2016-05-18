@@ -17,3 +17,4 @@ rm -rf /usr/share/man /usr/share/groff /usr/share/info /usr/share/lintian \
 
 # Keep only the English translation
 find /usr/share/locale -mindepth 1 -maxdepth 1 ! -name 'en' |xargs rm -r
+history -c

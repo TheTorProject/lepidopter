@@ -4,8 +4,8 @@ APT_MIRROR="http://httpredir.debian.org/debian"
 
 function usage() {
     echo "usage: setup.sh [options]"
-    echo "with no options the script installs the dependencies to run and build
-    lepidopter image"
+    echo "with no options the script installs the dependencies to run and build"
+         "lepidopter image"
     echo "-c, --compress compress lepidopter image with pxz"
 }
 
@@ -64,6 +64,6 @@ cd lepidopter/
 ./lepidopter-vmdebootstrap_build.sh
 
 
-if [ $compression = "1" ]; then
+if [ "$compression" = "1" ]; then
     compress
 fi
