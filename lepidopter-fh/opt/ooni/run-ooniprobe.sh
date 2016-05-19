@@ -10,5 +10,5 @@ fi
 
 cd ${OONI_REPORTS}
 
-ooniprobe --anotations=platform:lepidopter --confifile=${OONI_CONFIG} \
+ooniprobe --annotations=platform:lepidopter --configfile=${OONI_CONFIG} \
     --testdeck=${OONI_DECK}
