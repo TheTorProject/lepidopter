@@ -26,7 +26,7 @@ done
 # Compress lepidopter img
 function compress() {
 apt-get install -y pxz
-pxz -kv -T 4 images/*img
+pxz -kv -D 12 images/*img
 }
 
 # Add an apt repository with apt preferences
