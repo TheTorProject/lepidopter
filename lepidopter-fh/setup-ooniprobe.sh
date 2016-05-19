@@ -14,7 +14,7 @@ apt-get update
 apt-get -y install openssl libssl-dev libyaml-dev libffi-dev libpcap-dev tor \
     libgeoip-dev libdumbnet-dev python-dev python-pip
 # Install golang-go obfs4proxy includes a lite version of meek
-apt-get -y install -t stretch golang-go obfs4proxy
+apt-get -y install -t stretch golang-go obfs4proxy fteproxy
 
 # Show go version during build-up
 go version
@@ -22,7 +22,7 @@ go version
 # Remove previous system versions of pyasn1 and python-cryptography
 apt-get -y remove python-pyasn1 python-cryptography
 # Install ooniprobe obfsproxy and fteproxy
-pip install ooniprobe obfsproxy fteproxy
+pip install ooniprobe obfsproxy
 
 # Stop running tor service that can lead to a busy chroot mount
 service tor stop
