@@ -12,7 +12,7 @@ apt-get update
 
 # Install ooniprobe and pluggable transports dependencies
 apt-get -y install openssl libssl-dev libyaml-dev libffi-dev libpcap-dev tor \
-    libgeoip-dev libdumbnet-dev python-dev python-pip
+    libgeoip-dev libdumbnet-dev python-dev python-pip libgmp-dev
 # Install golang-go obfs4proxy includes a lite version of meek
 apt-get -y install -t stretch golang-go obfs4proxy
 
