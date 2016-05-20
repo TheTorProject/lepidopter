@@ -66,5 +66,13 @@ rm ${ROOTDIR}/cleanup.sh
 chroot ${ROOTDIR} /remove_ssh_host_keys.sh
 rm ${ROOTDIR}/remove_ssh_host_keys.sh
 
+# Remove motd file and create symlink for lepidopter dynamic MOTD
+rm ${ROOTDIR}/etc/motd
+ln -s ${ROOTDIR}/var/run/motd ${ROOTDIR}/etc/motd
+
+# Add (optional) pluggable transport support in tor config
+rm ${ROOTDIR}/tor-pt.conf
+cat tor-pt.conf >> ${ROOTDIR}/etc/tor/torrc
+
 echo "Customize script finished successfully."
 exit 0
