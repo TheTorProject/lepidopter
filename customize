@@ -71,8 +71,7 @@ rm ${ROOTDIR}/etc/motd
 ln -s ${ROOTDIR}/var/run/motd ${ROOTDIR}/etc/motd
 
 # Add (optional) pluggable transport support in tor config
-rm ${ROOTDIR}/tor-pt.conf
-cat tor-pt.conf >> ${ROOTDIR}/etc/tor/torrc
+cat conf/tor-pt.conf >> ${ROOTDIR}/etc/tor/torrc
 
 echo "Customize script finished successfully."
 exit 0
