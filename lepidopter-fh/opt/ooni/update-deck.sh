@@ -1,6 +1,5 @@
 #!/bin/bash
 source /etc/ooniprobe/ooniconfig.sh
-trap die ERR
 
 # Build the deck and configure it
 OONI_DECKGEN=$( oonideckgen --output=${OONI_HOME}/decks/ |
