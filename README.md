@@ -9,6 +9,9 @@ distribution.
 ### Lepidopter repository tree structure
 
 ```
+.
+├── conf
+│   └── tor-pt.conf Tor bridges and pluggable transports configuration file
 ├── customize       customize script used to customize lepidopter image
 ├── images          where the build Lepidopter images created
 ├── lepidopter-fh   Lepidopter image filesystem hierarchy
@@ -25,6 +28,8 @@ distribution.
 │   │   │   ├── remove_inc_reports
 │   │   │   ├── update_deck
 │   │   │   └── update_ooniprobe
+│   │   ├── default
+│   │   │   └── lepidopter
 │   │   ├── dpkg
 │   │   │   └── dpkg.cfg.d
 │   │   │       └── 01_nodoc
@@ -32,14 +37,17 @@ distribution.
 │   │   │   └── regenerate_ssh_host_keys
 │   │   ├── logrotate.d
 │   │   │   └── ooniprobe
+│   │   ├── motd.head                           Lepidopter MOTD ASCII logo
 │   │   ├── network
 │   │   │   └── if-up.d
 │   │   │       └── run_oonideckgen
-│   │   └── ooniprobe
-│   │       ├── ooniconfig.sh
-│   │       ├── oonideckconfig
-│   │       ├── ooniprobe.conf
-│   │       └── oonireport.conf
+│   │   ├── ooniprobe
+│   │   │   ├── ooniconfig.sh
+│   │   │   ├── oonideckconfig
+│   │   │   ├── ooniprobe.conf
+│   │   │   └── oonireport.conf
+│   │   └── update-motd.d
+│   │       └── 50-lepidopter
 │   ├── opt
 │   │   └── ooni
 │   │       ├── decks
@@ -58,6 +66,11 @@ distribution.
 ├── lepidopter-vmdebootstrap_build.sh   main lepidopter vmdebootstrap script
 ├── scripts         external scripts 
 │   └── setup.sh    install dependencies needed to create and build the image 
+├── LICENSE.md
+├── README.md       you are currently reading it
+├── scripts
+│   └── setup.sh
+└── Vagrantfile
 ```
 
 ### Supported Hardware
