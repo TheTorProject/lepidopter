@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -exa
 
 source lepidopter-fh/etc/default/lepidopter
