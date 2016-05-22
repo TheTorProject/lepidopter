@@ -3,8 +3,8 @@ source /etc/ooniprobe/ooniconfig.sh
 source /etc/ooniprobe/oonideckconfig
 
 if [ -z "${OONI_DECK}" ]; then
-    source /etc/ooniprobe/oonideckconfig
    /opt/ooni/update-deck.sh
+    source /etc/ooniprobe/oonideckconfig
 fi
 
 cd ${OONI_REPORTS}
