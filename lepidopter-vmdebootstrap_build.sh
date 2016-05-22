@@ -1,6 +1,8 @@
 #!/bin/sh
 set -exa
 
+source lepidopter-fh/etc/default/lepidopter
+
 USER="lepidopter"
 PASSWD="lepidopter"
 DEB_RELEASE="jessie"
@@ -10,15 +12,14 @@ APT_MIRROR="http://httpredir.debian.org/debian"
 # Uncomment next line to use apt-cacher-ng
 #MIRROR="http://localhost:3142/debian"
 MIRROR="http://httpredir.debian.org/debian"
-TODAY=`date +%Y%m%d-%H%M`
 
 vmdebootstrap \
     --arch ${ARCH} \
-    --log `pwd`/images/lepidopter-build-${TODAY}-${ARCH}.log \
+    --log `pwd`/images/lepidopter-build-${LEPIDOPTER_BUILD}-${ARCH}.log \
     --distribution ${DEB_RELEASE} \
     --apt-mirror ${APT_MIRROR} \
     --mirror ${MIRROR} \
-    --image `pwd`/images/lepidopter-${TODAY}-${ARCH}.img \
+    --image `pwd`/images/lepidopter-${LEPIDOPTER_BUILD}-${ARCH}.img \
     --size 3950M \
     --bootsize 64M \
     --boottype vfat \
