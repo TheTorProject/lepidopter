@@ -54,6 +54,13 @@ apt-get update
 apt-get install -y qemu-utils
 apt-get install -t sid -y vmdebootstrap
 
+# Copy know working vmdebootstrap version 0.10 from git
+cd $HOME
+git clone git://git.liw.fi/vmdebootstrap
+cd vmdebootstrap
+git checkout tags/vmdebootstrap-0.10
+cp vmdebootstrap /usr/sbin/vmdebootstrap
+
 cd $HOME
 git clone https://github.com/TheTorProject/lepidopter.git
 
@@ -67,3 +74,6 @@ cd lepidopter/
 if [ "$compression" = "1" ]; then
     compress
 fi
+
+# Remove all device mappings
+dmsetup remove_all
