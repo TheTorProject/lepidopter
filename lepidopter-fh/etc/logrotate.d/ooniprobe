@@ -8,22 +8,11 @@
     notifempty
 }
 
-/var/log/ooni/oonireport.log {
+/var/log/ooni/oonireport.log.* {
     missingok
     rotate 1
     compress
-    delaycompress
     copytruncate
     maxsize 1M
     notifempty
-}
-
-/var/log/ooni/ooniprobe.log {
-    daily
-    missingok
-    rotate 7
-    compress
-    delaycompress
-    copytruncate
-    maxsize 100M
 }
