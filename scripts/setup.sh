@@ -4,8 +4,8 @@ APT_MIRROR="http://httpredir.debian.org/debian"
 
 function usage() {
     echo "usage: setup.sh [options]"
-    echo "with no options the script installs the dependencies to run and build
-    lepidopter image"
+    echo "with no options the script installs the dependencies to run and build"
+         "lepidopter image"
     echo "-c, --compress compress lepidopter image with pxz"
 }
 
@@ -26,7 +26,7 @@ done
 # Compress lepidopter img
 function compress() {
 apt-get install -y pxz
-pxz -kv -T 4 images/*img
+pxz -kv -D 12 images/*img
 }
 
 # Add an apt repository with apt preferences
@@ -71,7 +71,7 @@ cd lepidopter/
 ./lepidopter-vmdebootstrap_build.sh
 
 
-if [[ $compression = "1" ]]; then
+if [ "$compression" = "1" ]; then
     compress
 fi
 

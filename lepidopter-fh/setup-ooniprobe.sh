@@ -8,28 +8,22 @@ TOR_REPO_GPG="A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89"
 # Add Torproject Debian repository
 apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-keys ${TOR_REPO_GPG}
 echo "deb ${TOR_DEB_REPO} ${DEB_RELEASE} main" > ${TOR_DEB_REPO_SRC_LIST}
-
-# Install golang-go
 apt-get update
-apt-get -y -t ${DEB_RELEASE}-backports install golang-go
+
+# Install ooniprobe and pluggable transports dependencies
+apt-get -y install openssl libssl-dev libyaml-dev libffi-dev libpcap-dev tor \
+    libgeoip-dev libdumbnet-dev python-dev python-pip libgmp-dev
+# Install golang-go obfs4proxy includes a lite version of meek
+apt-get -y install -t stretch golang-go obfs4proxy
+
+# Show go version during build-up
 go version
 
-# Build meek-client
-export GOPATH=$(mktemp -d)
-go get git.torproject.org/pluggable-transports/meek.git/meek-client
-cp $GOPATH/bin/meek-client /usr/local/bin/meek-client
-chmod +x /usr/local/bin/meek-client
-rm -rf $GOPATH
-# Install ooniprobe and pluggable transports dependencies
-apt-get -y install openssl libssl-dev libyaml-dev libsqlite3-dev libffi-dev \
-    libpcap0.8-dev libgeoip-dev libdumbnet-dev tor tor-geoipdb python-dev \
-    libgmp-dev python-pip
-# Install obfsproxy and fteproxy
-pip install obfsproxy fteproxy
-# Install obfs4proxy
-apt-get -y install -t stretch obfs4proxy
-# Install ooniprobe
-# Remove previous version of pyasn1
-apt-get -y remove python-pyasn1
-pip install git+https://github.com/TheTorProject/ooni-probe.git
+# Remove previous system versions of pyasn1 and python-cryptography
+apt-get -y remove python-pyasn1 python-cryptography
+# Install ooniprobe obfsproxy and fteproxy
+pip install ooniprobe obfsproxy fteproxy
+
+# Stop running tor service that can lead to a busy chroot mount
+service tor stop
 history -c

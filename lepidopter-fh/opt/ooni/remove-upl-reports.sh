@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 # This script removes uploaded OONI report files according to oonireport status
 # Removes only reports with not an incomplete or in progress status
-set -e
 source /etc/ooniprobe/ooniconfig.sh
 
 exl_files=($(oonireport -f ${OONIREPORT_CONFIG} status | sed -n 's/^\* //p'))
 
 for p in `find ${OONI_REPORTS} -name '*.yamloo' -type f`; do
      if ! [[ " ${exl_files[@]} " =~ " ${p} " ]]; then
-         rm --verbose ${p} >> ${OONI_CRONJOBS_LOG}
+         rm ${p}
      fi
 done
