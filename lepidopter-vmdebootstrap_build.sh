@@ -2,16 +2,7 @@
 set -exa
 
 source lepidopter-fh/etc/default/lepidopter
-
-USER="lepidopter"
-PASSWD="lepidopter"
-DEB_RELEASE="jessie"
-HOSTNAME_IMG="lepidopter"
-ARCH="armel"
-APT_MIRROR="http://httpredir.debian.org/debian"
-# Uncomment next line to use apt-cacher-ng
-#MIRROR="http://localhost:3142/debian"
-MIRROR="http://httpredir.debian.org/debian"
+source conf/lepidopter-image.conf
 
 vmdebootstrap \
     --arch ${ARCH} \
