@@ -11,6 +11,7 @@ distribution.
 ```
 .
 ├── conf
+│   ├── lepidopter-image.conf
 │   └── tor-pt.conf Tor bridges and pluggable transports configuration file
 ├── customize       customize script used to customize lepidopter image
 ├── images          where the build Lepidopter images created
