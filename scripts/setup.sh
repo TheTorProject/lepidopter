@@ -24,7 +24,7 @@ while getopts "c:ht" opt; do
         ;;
       h)
         usage
-        exit 1
+        exit 0
         ;;
      \?)
         echo "Invalid option: -$OPTARG" >&2
