@@ -1,12 +1,17 @@
 #!/bin/bash
 
-APT_MIRROR="http://httpredir.debian.org/debian"
+source lepidopter-fh/etc/default/lepidopter
+source conf/lepidopter-image.conf
+
+# Set preferred compression method. currently zip and xz supported
+compression_method=( zip xz )
+image_file="lepidopter-${LEPIDOPTER_BUILD}-${ARCH}.img"
 
 function usage() {
     echo "usage: setup.sh [options]"
-    echo "with no options the script installs the dependencies to run and build"
-         "lepidopter image"
-    echo "-c, --compress compress lepidopter image with pxz"
+    echo "with no options the script installs the dependencies and builds" \
+            "lepidopter image"
+    echo "-c, --compress compress lepidopter image"
 }
 
 while [ $# -ne 0 ]; do
@@ -24,9 +29,14 @@ while [ $# -ne 0 ]; do
 done
 
 # Compress lepidopter img
-function compress() {
+xz_archive() {
 apt-get install -y pxz
-pxz -kv -D 12 images/*img
+pxz --keep --verbose -D 12 images/${image_file}
+}
+
+zip_archive() {
+apt-get install -y zip
+zip --verbose -9 images/${image_file}.zip images/${image_file}
 }
 
 # Add an apt repository with apt preferences
@@ -70,9 +80,10 @@ modprobe loop
 cd lepidopter/
 ./lepidopter-vmdebootstrap_build.sh
 
-
 if [ "$compression" = "1" ]; then
-    compress
+    for cmp in "${compression_method[@]}"; do
+        ${cmp}_archive
+    done
 fi
 
 # Remove all device mappings
