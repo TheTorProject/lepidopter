@@ -1,32 +1,52 @@
 #!/bin/bash
+set -e
 
 source lepidopter-fh/etc/default/lepidopter
 source conf/lepidopter-image.conf
 
-# Set preferred compression method. currently zip and xz supported
-compression_method=( zip xz )
 image_file="lepidopter-${LEPIDOPTER_BUILD}-${ARCH}.img"
 
 function usage() {
     echo "usage: setup.sh [options]"
     echo "with no options the script installs the dependencies and builds" \
             "lepidopter image"
-    echo "-c, --compress compress lepidopter image"
+    echo "-c compress lepidopter image with xz or zip compression (eg. -c xz)"
+    echo "-t create a torrent file of the image and the digests"
 }
 
-while [ $# -ne 0 ]; do
-    case $1 in
-        -c | --compress)        shift
-                                compression=1
-                                ;;
-        -h | --help )           usage
-                                exit
-                                ;;
-        * )                     usage
-                                exit 1
+while getopts "c:ht" opt; do
+    case $opt in
+      c)
+        compression_method+=("$OPTARG")
+        ;;
+      t)
+        build_torrent=true
+        ;;
+      h)
+        usage
+        exit 0
+        ;;
+     \?)
+        echo "Invalid option: -$OPTARG" >&2
+        usage
+        exit 1
+        ;;
+      :)
+        echo "Option -$OPTARG requires an argument." >&2
+        usage
+        exit 1
     esac
-    shift
 done
+
+# Create a torrent of the xz image file
+mk_torrent() {
+apt-get install -y mktorrent bittornado
+cd images && \
+mktorrent -a 'udp://tracker.torrent.eu.org:451' \
+          -a 'udp://tracker.coppersurfer.tk:6969' \
+          -n ${image_file:-4} SHA* ${image_file}.xz
+btshowmetainfo ${image_file:-4}.torrent
+}
 
 # Compress lepidopter img
 xz_archive() {
@@ -80,10 +100,14 @@ modprobe loop
 cd lepidopter/
 ./lepidopter-vmdebootstrap_build.sh
 
-if [ "$compression" = "1" ]; then
+if [ "${#compression_method[@]}" -ne 0 ] ; then
     for cmp in "${compression_method[@]}"; do
         ${cmp}_archive
     done
+fi
+
+if [ "$build_torrent" = true ] ; then
+    mk_torrent
 fi
 
 # Remove all device mappings
