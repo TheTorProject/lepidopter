@@ -59,30 +59,12 @@ apt-get install -y zip
 zip --verbose -9 images/${image_file}.zip images/${image_file}
 }
 
-# Add an apt repository with apt preferences
-set_apt_sources() {
-    SUITE="$1"
-    PIN_PRIORITY="$2"
-    COMPONENTS="main"
-    cat <<EOF >> /etc/apt/sources.list
-# Repository: $SUITE
-deb $APT_MIRROR $SUITE $COMPONENTS
-deb-src $APT_MIRROR $SUITE $COMPONENTS
-EOF
-    cat <<EOF > /etc/apt/preferences.d/${SUITE}.pref
-Package: *
-Pin: release n=$SUITE
-Pin-Priority: $PIN_PRIORITY
-EOF
-}
+# Add backports APT repository
+echo "deb $APT_MIRROR ${DEB_RELEASE}-backports main" > \
+    /etc/apt/sources.list.d/${DEB_RELEASE}-backports.list
 
-# Add sid APT repository
-set_apt_sources sid 50
-apt-get update
-
-# Bug: Do not install qemu-utils via the sid repo
-apt-get install -y qemu-utils
-apt-get install -t sid -y vmdebootstrap
+apt-get update -q
+apt-get install -t ${DEB_RELEASE}-backports -y vmdebootstrap qemu-utils
 
 # Copy know working vmdebootstrap version 0.10 from git
 cd $HOME
