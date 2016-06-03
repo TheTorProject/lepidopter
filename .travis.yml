@@ -1,3 +1,4 @@
+dist: trusty
 language: bash
 sudo: required
 script: "sudo bash -x scripts/setup.sh"
