@@ -1,4 +1,5 @@
 language: bash
+sudo: required
 script: "bash -x scripts/setup.sh"
 notifications:
   irc:
