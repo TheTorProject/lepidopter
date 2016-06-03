@@ -1,5 +1,8 @@
 # Lepidopter - OONI powered Raspberry Pi image
 
+[![Build Status]
+(https://travis-ci.org/TheTorProject/lepidopter.svg?branch=master)](https://travis-ci.org/TheTorProject/lepidopter)
+
 ## Description
 The generic lepidopter image build script using the vmdebootstap method.
 The image provides a ready to run
