@@ -59,12 +59,15 @@ apt-get install -y zip
 zip --verbose -9 images/${image_file}.zip images/${image_file}
 }
 
-# Add backports APT repository
-echo "deb $APT_MIRROR ${DEB_RELEASE}-backports main" > \
-    /etc/apt/sources.list.d/${DEB_RELEASE}-backports.list
-
-apt-get update -q
-apt-get install -t ${DEB_RELEASE}-backports -y vmdebootstrap qemu-utils
+if [ "$( lsb_release -is )" == "Debian" ]; then
+    # Add backports APT repository
+    echo "deb $APT_MIRROR ${DEB_RELEASE}-backports main" > \
+        /etc/apt/sources.list.d/${DEB_RELEASE}-backports.list
+    apt-get update -q
+    apt-get install -t ${DEB_RELEASE}-backports -y vmdebootstrap qemu-utils
+else
+    apt-get install -y vmdebootstrap qemu-utils
+fi
 
 # Copy know working vmdebootstrap version 0.10 from git
 cd $HOME
