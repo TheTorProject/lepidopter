@@ -1,0 +1,11 @@
+language: bash
+script: "bash -x scripts/setup.sh"
+notifications:
+  irc:
+    template:
+      - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
+      - "Change view : %{compare_url}"
+      - "Build details : %{build_url}"
+    channels:
+      - "irc.oftc.net#test-anadahz-channel"
+    use_notice: true
