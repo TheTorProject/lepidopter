@@ -1,6 +1,6 @@
 #!/bin/bash
 set -exa
-GIT_BUILD="$(git describe)"
+GIT_BUILD="$(git describe --tags)"
 
 echo "LEPIDOPTER_BUILD=\"${GIT_BUILD}\"" > lepidopter-fh/etc/default/lepidopter
 source lepidopter-fh/etc/default/lepidopter
