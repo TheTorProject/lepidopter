@@ -1,6 +1,8 @@
 #!/bin/bash
 set -exa
+GIT_BUILD="$(git describe --tags)"
 
+echo "LEPIDOPTER_BUILD=\"${GIT_BUILD}\"" > lepidopter-fh/etc/default/lepidopter
 source lepidopter-fh/etc/default/lepidopter
 source conf/lepidopter-image.conf
 
@@ -39,6 +41,7 @@ vmdebootstrap \
     --package lsb-release \
     --package tcpdump \
     --package localepurge \
+    --package fake-hwclock \
     --configure-apt \
     --customize `pwd`/customize \
     "$@"
