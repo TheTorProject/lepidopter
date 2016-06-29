@@ -58,6 +58,10 @@ rsync -avp lepidopter-fh/ ${ROOTDIR}/
 chroot ${ROOTDIR} /setup-ooniprobe.sh
 rm ${ROOTDIR}/setup-ooniprobe.sh
 
+# OS configure script
+chroot ${ROOTDIR} /configure.sh
+rm ${ROOTDIR}/configure.sh
+
 # Execute cleanup script
 chroot ${ROOTDIR} /cleanup.sh
 rm ${ROOTDIR}/cleanup.sh
