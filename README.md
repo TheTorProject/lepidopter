@@ -10,6 +10,7 @@ distribution.
 
 ```
 .
+├── Changelog.rst
 ├── conf
 │   ├── lepidopter-image.conf
 │   └── tor-pt.conf Tor bridges and pluggable transports configuration file
@@ -22,15 +23,14 @@ distribution.
 │   │   │   └── apt.conf.d
 │   │   │       └── 02compress-indexes
 │   │   ├── cron.daily      daily cronjobs
+│   │   │   ├── remove_old_logs
 │   │   │   ├── remove_upl_reports
 │   │   │   ├── run_ooniprobe_deck
 │   │   │   └── upload_reports
+│   │   ├── crontab
 │   │   ├── cron.weekly     weekly cronjobs
 │   │   │   ├── remove_inc_reports
-│   │   │   ├── update_deck
-│   │   │   └── update_ooniprobe
-│   │   ├── default
-│   │   │   └── lepidopter
+│   │   │   └── update_ooniprobe_deck
 │   │   ├── dpkg
 │   │   │   └── dpkg.cfg.d
 │   │   │       └── 01_nodoc
@@ -56,6 +56,7 @@ distribution.
 │   │       ├── remove-upl-reports.sh
 │   │       ├── reports
 │   │       ├── run-ooniprobe.sh
+│   │       ├── tor_data_dir
 │   │       ├── update-deck.sh
 │   │       ├── update-ooniprobe.sh
 │   │       └── upload-reports.sh
@@ -65,13 +66,11 @@ distribution.
 │       └── log
 │           └── ooni
 ├── lepidopter-vmdebootstrap_build.sh   main lepidopter vmdebootstrap script
-├── scripts         external scripts 
-│   └── setup.sh    install dependencies needed to create and build the image 
 ├── LICENSE.md
 ├── README.md       you are currently reading it
-├── scripts
+├── scripts         external scripts
 │   ├── lepidopter-sign.sh
-│   └── setup.sh
+│   └── setup.sh    install dependencies needed to create and build the image 
 └── Vagrantfile
 ```
 
