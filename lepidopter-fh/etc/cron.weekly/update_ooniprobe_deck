@@ -1,0 +1,4 @@
+#!/bin/bash
+# Update ooniprobe and deck
+/opt/ooni/update-ooniprobe.sh
+/opt/ooni/update-deck.sh
