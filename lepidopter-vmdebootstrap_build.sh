@@ -42,6 +42,10 @@ vmdebootstrap \
     --package tcpdump \
     --package localepurge \
     --package fake-hwclock \
+    --package wireless-tools \
+    --package wpasupplicant \
+    --package wireless-regdb \
+    --package crda \
     --configure-apt \
     --customize `pwd`/customize \
     "$@"
