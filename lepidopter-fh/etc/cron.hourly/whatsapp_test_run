@@ -1,0 +1,13 @@
+#!/bin/bash
+source /etc/ooniprobe/ooniconfig.sh
+
+OONIPROBE_TEST_URL="https://github.com/TheTorProject/ooni-probe/raw/feature/whatsapp-test/ooni/nettests/blocking/whatsapp.py"
+OONIPROBE_TEST=${OONIPROBE_TEST_URL##*/}
+
+/usr/bin/wget --no-verbose --continue --no-use-server-timestamps \
+    --directory-prefix=${OONI_HOME} ${OONIPROBE_TEST_URL}
+
+cd ${OONI_REPORTS}
+
+/usr/local/bin/ooniprobe --annotations=platform:lepidopter \
+    --configfile=${OONI_CONFIG} ${OONI_HOME}/${OONIPROBE_TEST}
