@@ -18,6 +18,11 @@ touch ${ROOTDIR}/boot/start.elf
 export UPDATE_SELF=0 SKIP_BACKUP=1 SKIP_WARNING=1
 chroot ${ROOTDIR} rpi-update
 
+# Add Raspberry Pi 3 wireless chipset firmware
+wget --directory-prefix=${ROOTDIR}/lib/firmware/brcm/ \
+https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm80211/brcm/brcmfmac43430-sdio.bin \
+https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm80211/brcm/brcmfmac43430-sdio.txt
+
 # Add module for hardware RNG
 cat <<EOF >> ${ROOTDIR}/etc/modules
 bcm2708_rng
