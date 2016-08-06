@@ -1,0 +1,19 @@
+#!/bin/sh
+# This script updates lepidopter version and ChangeLog files
+set -e
+
+VERSION_FILE="lepidopter-fh/etc/lepidopter_version"
+
+# First issue a release
+# git tag -a vX.X.X -m "Release msg" -s -u <keyid>"
+
+echo "Using tag reference: $(git tag -n |tail -n1) as release tag."
+
+NEW_RELEASE_VER=$(git describe --abbrev=0)
+
+echo ${NEW_RELEASE_VER} > ${VERSION_FILE}
+
+mv ChangeLog.md ChangeLog.md.old
+echo "#Lepidopter ${NEW_RELEASE_VER} [`date +%Y-%m-%d`]" > ChangeLog.md
+cat ChangeLog.md.old >> ChangeLog.md
+rm ChangeLog.md.old
