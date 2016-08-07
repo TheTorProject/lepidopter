@@ -16,9 +16,6 @@ apt-get -y install openssl libssl-dev libyaml-dev libffi-dev libpcap-dev tor \
 # Install obfs4proxy that includes a lite version of meek
 apt-get -y install -t stretch obfs4proxy
 
-# Show go version during build-up
-go version
-
 # Remove previous system versions of pyasn1 and python-cryptography
 apt-get -y remove python-pyasn1 python-cryptography
 # Install ooniprobe obfsproxy and fteproxy
