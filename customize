@@ -76,6 +76,8 @@ chroot ${ROOTDIR} ln -s /var/run/motd /etc/motd
 
 # Add (optional) pluggable transport support in tor config
 cat conf/tor-pt.conf >> ${ROOTDIR}/etc/tor/torrc
+# Add hidden service specific configuration in tor config
+cat conf/tor-hs.conf >> ${ROOTDIR}/etc/tor/torrc
 
 echo "Customize script finished successfully."
 exit 0
