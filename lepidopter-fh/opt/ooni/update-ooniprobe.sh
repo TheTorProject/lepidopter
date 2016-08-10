@@ -7,5 +7,3 @@ apt-get -y -qq purge python-cryptography
 
 # Update ooniprobe
 pip -q install ooniprobe --upgrade
-# Update ooniresources
-ooniresources --update-inputs

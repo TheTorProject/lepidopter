@@ -1,3 +1,0 @@
-#!/bin/bash
-# Update deck
-/opt/ooni/update-deck.sh
