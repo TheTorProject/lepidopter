@@ -7,6 +7,7 @@ if [ -z "${OONI_DECK}" ]; then
     source /etc/ooniprobe/oonideckconfig
 fi
 
+# Check if http_invalid_request_line test is in default deck
 if grep "http_invalid_request_line" ${OONI_DECK}; then
     # Remove http_invalid_request_line test from default deck
     /opt/ooni/massage_deck.py ${OONI_DECK} > ${OONI_DECK}.tmp \
