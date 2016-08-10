@@ -6,7 +6,7 @@ OONI_DECKGEN=$( oonideckgen --output=${OONI_HOME}/decks/ |
 	grep ^ooniprobe | cut -d ' ' -f3  ; exit ${PIPESTATUS[0]} )
 
 # Exclude tests that are disabled from running
-python /opt/ooni/exclude_disabled_tests.py ${OONI_DECKGEN} 2>> $OONI_LOGS/exclude-tests.log
+python /opt/ooni/exclude_disabled_tests.py ${OONI_DECKGEN}
 
 if [ -n "$OONI_DECKGEN" ]; then
 	echo "#ooniprobe deck update: $(date)" > ${OONI_DECK_CONFIG}

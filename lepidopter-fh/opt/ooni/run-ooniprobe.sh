@@ -8,7 +8,7 @@ if [ -z "${OONI_DECK}" ]; then
 fi
 
 # Exclude tests that are disabled from running
-python /opt/ooni/exclude_disabled_tests.py ${OONI_DECK} 2>> $OONI_LOGS/exclude-tests.log
+python /opt/ooni/exclude_disabled_tests.py ${OONI_DECK}
 
 cd ${OONI_REPORTS}
 
