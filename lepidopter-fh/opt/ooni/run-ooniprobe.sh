@@ -7,12 +7,8 @@ if [ -z "${OONI_DECK}" ]; then
     source /etc/ooniprobe/oonideckconfig
 fi
 
-# Check if http_invalid_request_line test is in default deck
-if grep "http_invalid_request_line" ${OONI_DECK}; then
-    # Remove http_invalid_request_line test from default deck
-    /opt/ooni/massage_deck.py ${OONI_DECK} > ${OONI_DECK}.tmp \
-        && mv ${OONI_DECK}.tmp ${OONI_DECK}
-fi
+# Exclude tests that are disabled from running
+python /opt/ooni/exclude_disabled_tests.py ${OONI_DECK} 2>> $OONI_LOGS/exclude-tests.log
 
 cd ${OONI_REPORTS}
 
