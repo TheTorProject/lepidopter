@@ -10,7 +10,8 @@ if [ -n "$OONI_DECKGEN" ]; then
 	echo "OONI_DECK=${OONI_DECKGEN}" >> ${OONI_DECK_CONFIG}
 fi
 
-# Remove http_invalid_request_line test from default deck
-awk '/http_invalid_request_line/{for(x=NR-9;x<=NR+1;x++)d[x];} \
-  {a[NR]=$0} END{for(i=1;i<=NR;i++)if(!(i in d))print a[i]}' ${OONI_DECK} > tmp \
- && mv tmp ${OONI_DECK}
+if grep "http_invalid_request_line" ${OONI_DECK}; then
+    # Remove http_invalid_request_line test from default deck
+    /opt/ooni/massage_deck.py ${OONI_DECK} > ${OONI_DECK}.tmp \
+        && ${OONI_DECK}.tmp ${OONI_DECK}
+fi

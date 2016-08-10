@@ -7,6 +7,12 @@ if [ -z "${OONI_DECK}" ]; then
     source /etc/ooniprobe/oonideckconfig
 fi
 
+if grep "http_invalid_request_line" ${OONI_DECK}; then
+    # Remove http_invalid_request_line test from default deck
+    /opt/ooni/massage_deck.py ${OONI_DECK} > ${OONI_DECK}.tmp \
+        && ${OONI_DECK}.tmp ${OONI_DECK}
+fi
+
 cd ${OONI_REPORTS}
 
 ooniprobe --annotations=platform:lepidopter --configfile=${OONI_CONFIG} \
