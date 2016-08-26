@@ -49,3 +49,29 @@ updates.
 ### SWUpdate
 
 [WIP EVALUATION]
+
+### fwup
+
+An image based "firmware" tool that uses a dual partition update pattern.
+Upon a successful image update the MBR will be updated to make the bootloader
+boot form the 2nd (updated) partition. Update failures are being detected
+during the firmware update process.
+
+#### Pros
+
+* Can be integrated to lepidopter with minimal effort.
+
+* Non complicated implementation.
+
+#### Cons
+
+* There is no support for automatic (or unattended) updates.
+
+* There is no support for incremental updates every update results a new (big)
+  image.
+
+* There is no native support for ext filesystems.
+
+* There is no fallback mode and in case of software bugs in an updated image,
+  the system will be unable to boot and user intervention (ie. copy a working
+  image to an SD card) will be required.
