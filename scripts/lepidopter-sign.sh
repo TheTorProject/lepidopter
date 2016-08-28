@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
 
 DIR="images"
 LEPIDOPTER_SIGN_KEY="0xBA56AC5A53E9C7A4"
