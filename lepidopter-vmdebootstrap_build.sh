@@ -42,6 +42,7 @@ vmdebootstrap \
     --package tcpdump \
     --package localepurge \
     --package fake-hwclock \
+    --package avahi-daemon \
     --configure-apt \
     --customize `pwd`/customize \
     "$@"
