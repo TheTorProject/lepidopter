@@ -46,6 +46,7 @@ vmdebootstrap \
     --package wpasupplicant \
     --package wireless-regdb \
     --package crda \
+    --package avahi-daemon \
     --configure-apt \
     --customize `pwd`/customize \
     "$@"
