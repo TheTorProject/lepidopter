@@ -7,7 +7,7 @@ set -e
 CRITICAL_PCENT=98
 # Warning percentage of root filesystem usage
 WARNING_PCENT=93
-ROOTFS_USE=$(df --sync --output=pcent / |tail -n1 |cut -d'%')
+ROOTFS_USE=$(df --sync --output=pcent / |tail -n1 |cut -d'%' -f1 |tr -d ' ')
 
 if [ "$ROOTFS_USE" -ge "$CRITICAL_PCENT" ] ; then
     apt-get clean
