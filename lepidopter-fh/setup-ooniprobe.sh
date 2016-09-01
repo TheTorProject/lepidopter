@@ -18,8 +18,14 @@ apt-get -y install -t stretch obfs4proxy
 
 # Remove previous system versions of pyasn1 and python-cryptography
 apt-get -y remove python-pyasn1 python-cryptography
-# Install ooniprobe obfsproxy and fteproxy
-pip install ooniprobe obfsproxy fteproxy
+# Install obfsproxy and fteproxy
+pip install obfsproxy fteproxy
+# Install ooniprobe v2.0.0 alpha
+pip install -e \
+    git+https://github.com/TheTorProject/ooni-probe@v2.0.0-alpha#egg=ooniprobe
+
+# Enable ooniprobe systemd service to start on boot
+systemctl enable ooniprobe
 
 # Stop running tor service that can lead to a busy chroot mount
 service tor stop

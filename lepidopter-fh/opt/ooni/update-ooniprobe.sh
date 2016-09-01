@@ -1,11 +1,6 @@
 #!/bin/bash
 source /etc/ooniprobe/ooniconfig.sh
 
-# Make sure to remove python-cryptography package that intereferes with many
-# python packages and system upgrades
-apt-get -y -qq purge python-cryptography
-
 # Update ooniprobe
-pip -q install ooniprobe --upgrade
-# Update ooniresources
-ooniresources --update-inputs
+pip install -e --upgrade \
+    git+https://github.com/TheTorProject/ooni-probe@v2.0.0-alpha#egg=ooniprobe
