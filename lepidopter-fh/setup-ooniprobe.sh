@@ -24,6 +24,9 @@ pip install obfsproxy fteproxy
 pip install -e \
     git+https://github.com/TheTorProject/ooni-probe@v2.0.0-alpha#egg=ooniprobe
 
+# Enable ooniprobe systemd service to start on boot
+systemctl enable ooniprobe
+
 # Stop running tor service that can lead to a busy chroot mount
 service tor stop
 history -c
