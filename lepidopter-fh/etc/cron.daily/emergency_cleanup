@@ -1,0 +1,23 @@
+#!/bin/bash
+# This script will cleanup old log files and apt cache if a specific warning or
+# critical percentage of used disk space is triggered for the root filesystem
+set -e
+
+# Critical percentage of root filesystem usage
+CRITICAL_PCENT=98
+# Warning percentage of root filesystem usage
+WARNING_PCENT=93
+ROOTFS_USE=$(df --sync --output=pcent / |tail -n1 |cut -d'%')
+
+if [ "$ROOTFS_USE" -ge "$CRITICAL_PCENT" ] ; then
+    apt-get clean
+    echo "Removing documentation..." >&2
+    find /usr/share/doc -depth -type f ! -name copyright|xargs rm || true
+    find /usr/share/doc -empty|xargs rmdir || true
+    rm -rf /usr/share/man /usr/share/groff /usr/share/info /usr/share/lintian \
+        /usr/share/linda /var/cache/man /usr/share/locale
+    find /var/log/ -type f -mtime +1 -exec rm -f -- '{}' \;
+elif [ "$ROOTFS_USE" -ge "$WARNING_PCENT" ] ; then
+    # Remove the same set of files and directories
+    find /var/log/ -type f -mtime +2 -exec rm -f -- '{}' \;
+fi
