@@ -3,7 +3,7 @@ Description=%n, network interference detection tool
 After=network.target nss-lookup.target
 
 [Service]
-Type=simple
+Type=forking
 PIDFile=/var/lib/ooni/twistd.pid
 ExecStart=/usr/local/bin/ooniprobe-agent start
 ExecStop=/usr/local/bin/ooniprobe-agent stop
