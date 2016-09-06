@@ -43,6 +43,10 @@ vmdebootstrap \
     --package localepurge \
     --package fake-hwclock \
     --package avahi-daemon \
+    --package wireless-tools \
+    --package wpasupplicant \
+    --package wireless-regdb \
+    --package crda \
     --configure-apt \
     --customize `pwd`/customize \
     "$@"
