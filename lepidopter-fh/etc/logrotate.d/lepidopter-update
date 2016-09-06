@@ -1,0 +1,7 @@
+/var/log/ooni/lepidopter-update.log {
+    missingok
+    rotate 2
+    copytruncate
+    maxsize 1M
+    notifempty
+}
