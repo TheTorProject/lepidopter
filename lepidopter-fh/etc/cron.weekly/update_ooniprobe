@@ -1,3 +1,0 @@
-#!/bin/bash
-# Update ooniprobe
-/opt/ooni/update-ooniprobe.sh
