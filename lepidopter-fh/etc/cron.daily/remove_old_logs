@@ -1,7 +1,0 @@
-#!/bin/bash
-# This cronjob has been created to overcome a limitation of ooniprobe log
-# rotations. It deletes files modified by the pattern 'ooniprobe.log.*_*' the
-# last 6 days for the ${OONI_LOGS} directory
-source /etc/ooniprobe/ooniconfig.sh
-
-find ${OONI_LOGS} -name "ooniprobe.log.*_*" -mtime +6 -type f -delete
