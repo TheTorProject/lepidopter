@@ -20,9 +20,8 @@ apt-get -y install -t stretch obfs4proxy
 apt-get -y remove python-pyasn1 python-cryptography
 # Install obfsproxy and fteproxy
 pip install obfsproxy fteproxy
-# Install ooniprobe v2.0.0 alpha
-pip install -e \
-    git+https://github.com/TheTorProject/ooni-probe@v2.0.0-alpha#egg=ooniprobe
+# Install ooniprobe v2.0.0-rc1
+pip install https://people.torproject.org/~art/ooni/ooniprobe-2.0.0rc1.tar.gz
 
 # Enable ooniprobe systemd service to start on boot
 systemctl enable ooniprobe
