@@ -198,6 +198,9 @@ def perform_update(version, skip_verification=False):
 
     try:
         logging.info("Running install script")
+        if updater.__version__ != str(version):
+            logging.error("There is a version mismatch in the updater file. This could be a sign of a replay attack.")
+            raise UpdateFailed
         updater.run()
     except Exception:
         logging.exception("Failed to run the version update script for version {0}".format(version))
@@ -213,6 +216,8 @@ def perform_update(version, skip_verification=False):
     # Update the current version number
     with open(CURRENT_VERSION_PATH, "w+") as out_file:
         out_file.write(str(version))
+
+    logging.info("Updated to version {0}".format(version))
 
 def update_to_version(from_version, to_version, skip_verification=False):
     versions = range(from_version + 1, to_version + 1)
