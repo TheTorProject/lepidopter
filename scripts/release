@@ -1,0 +1,57 @@
+#!/bin/sh
+# This script updates lepidopter version and ChangeLog files
+set -e
+
+VERSION_FILE="lepidopter-fh/etc/lepidopter_version"
+
+usage() {
+    echo "usage: $0 [options]"
+    echo -e "\t-a git tag annotation (X.X.X)"
+    echo -e "\t-m git tag message (\"msg\")"
+    echo -e "\t-u git tag GPG keyid (0xXXX)"
+}
+
+if [ $# -ne 6 ] ; then
+    usage
+    exit 1
+fi
+
+while getopts "a:m:u:" opt; do
+    case $opt in
+      a)
+        annotation=${OPTARG}
+        ;;
+      m)
+        message=${OPTARG}
+        ;;
+      u)
+        keyid=${OPTARG}
+        ;;
+      h)
+        usage
+        exit 0
+        ;;
+     \?)
+        echo "Invalid option: -$OPTARG" >&2
+        usage
+        exit 1
+        ;;
+      :)
+        echo "Option -$OPTARG requires an argument." >&2
+        usage
+        exit 1
+    esac
+done
+
+echo "Using tag reference: ${annotation} as release tag.\n"
+
+echo ${annotation} > ${VERSION_FILE}
+
+mv ChangeLog.md ChangeLog.md.old
+echo "# Lepidopter v${annotation} [`date +%Y-%m-%d`]\n" > ChangeLog.md
+cat ChangeLog.md.old >> ChangeLog.md
+rm ChangeLog.md.old
+
+# git tag -a X.X.X -m "Release msg" -s -u <keyid>"
+echo "If you are happy with ChangeLog content, commit changes.\n"
+echo "When ready use: git tag -a ${annotation} -m "${message}" -s -u ${keyid}"
