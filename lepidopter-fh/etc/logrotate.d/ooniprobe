@@ -7,12 +7,3 @@
     maxsize 1M
     notifempty
 }
-
-/var/log/ooni/oonireport.log.* {
-    missingok
-    rotate 1
-    compress
-    copytruncate
-    maxsize 1M
-    notifempty
-}

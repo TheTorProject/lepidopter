@@ -1,0 +1,11 @@
+[Unit]
+Description=lepidopter-update service
+
+[Service]
+Type=simple
+ExecStart=/opt/ooni/lepidopter-update/updater.py --log-file /var/log/ooni/lepidopter-update.log update --watch
+TimeoutStartSec=300
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
