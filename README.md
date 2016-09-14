@@ -10,7 +10,7 @@ distribution.
 
 ```
 .
-├── Changelog.rst
+├── ChangeLog.md
 ├── conf
 │   ├── lepidopter-image.conf
 │   └── tor-pt.conf Tor bridges and pluggable transports configuration file
@@ -22,44 +22,47 @@ distribution.
 │   │   ├── apt
 │   │   │   └── apt.conf.d
 │   │   │       └── 02compress-indexes
+│   │   ├── avahi
+│   │   │   └── services
+│   │   │       ├── ooniprobe.service
+│   │   │       └── ssh.service
 │   │   ├── cron.daily      daily cronjobs
-│   │   │   ├── remove_old_logs
-│   │   │   ├── remove_upl_reports
-│   │   │   ├── run_ooniprobe_deck
-│   │   │   └── upload_reports
+│   │   │   └── remove_old_logs
 │   │   ├── crontab
-│   │   ├── cron.weekly     weekly cronjobs
-│   │   │   ├── remove_inc_reports
-│   │   │   └── update_ooniprobe_deck
+│   │   ├── default
+│   │   │   ├── hwclock
+│   │   │   └── rcS
 │   │   ├── dpkg
 │   │   │   └── dpkg.cfg.d
 │   │   │       └── 01_nodoc
 │   │   ├── init.d
 │   │   │   └── regenerate_ssh_host_keys
+│   │   ├── lepidopter-update
+│   │   │   └── version
+│   │   ├── lepidopter_version
 │   │   ├── logrotate.d
+│   │   │   ├── lepidopter-update
 │   │   │   └── ooniprobe
 │   │   ├── motd.head                           Lepidopter MOTD ASCII logo
 │   │   ├── network
 │   │   │   └── if-up.d
 │   │   │       └── run_oonideckgen
 │   │   ├── ooniprobe
-│   │   │   ├── ooniconfig.sh
-│   │   │   ├── oonideckconfig
-│   │   │   ├── ooniprobe.conf
-│   │   │   └── oonireport.conf
+│   │   │   └── ooniconfig.sh
+│   │   ├── ooniprobe.conf
+│   │   ├── systemd
+│   │   │   └── system
+│   │   │       ├── lepidopter-update.service
+│   │   │       └── ooniprobe.service
 │   │   └── update-motd.d
 │   │       └── 50-lepidopter
 │   ├── opt
 │   │   └── ooni
-│   │       ├── decks
-│   │       ├── remove-inc-reports.sh
-│   │       ├── remove-upl-reports.sh
-│   │       ├── reports
-│   │       ├── run-ooniprobe.sh
-│   │       ├── tor_data_dir
-│   │       ├── update-deck.sh
-│   │       ├── update-ooniprobe.sh
-│   │       └── upload-reports.sh
+│   │       ├── lepidopter-update
+│   │       │   ├── public.asc
+│   │       │   ├── updater.py
+│   │       │   └── versions
+│   │       └── tor_data_dir
 │   ├── remove_ssh_host_keys.sh
 │   ├── setup-ooniprobe.sh
 │   └── var
@@ -70,26 +73,23 @@ distribution.
 ├── README.md       you are currently reading it
 ├── scripts         external scripts
 │   ├── lepidopter-sign.sh
+│   ├── release
 │   └── setup.sh    install dependencies needed to create and build the image 
 └── Vagrantfile
 ```
 
 ### Supported Hardware
 
-The image is targeted mainly for the Raspberry Pi devices currently all
-hardware variant are being supported (armel architecture).
-It should be fairly easy to create the same image for different
+The image is targeted for the Raspberry Pi devices.
+Lepidopter supports all Raspberry Pi hardware variants that use the armel
+architecture). It should be fairly easy to create the same image for different
 architectures, and OS distributions.
 
-Supported hardware (tested):
+Supported (tested) devices:
 * Raspberry Pi 1 Model B
 * Raspberry Pi 1 Model B+
 * Raspberry Pi 2 Model B
-
-Possible supported hardware (untested):
-* Beaglebone
-* Cubietruck
-* Wandboard
+* Raspberry Pi 3 Model B
 
 ## Installation
 
@@ -121,9 +121,9 @@ Optionally you could install lepidopter dependencies via the setup script
 ```
 ./scripts/setup.sh
 ```
-To compress the image as well you should use::
+To compress the image with XZ you should use::
 ```
-./scripts/setup.sh --compress
+./scripts/setup.sh -c xz
 ```
 
 To perform an unattended lepidopter image build you could use this in Debian::
@@ -204,14 +204,20 @@ qemu-system-arm -M versatilepb -cpu arm1136-r2 \
     -kernel kernel-qemu-4.1.7-jessie \
     -hda lepidopter-armel.img  -m 256 \
     -append "root=/dev/sda2 rootfstype=ext4 rw" \
-    -net nic -net user,hostfwd=tcp:127.0.0.1:2222-:22
+    -net nic -net user,hostfwd=tcp::2222-:22,hostfwd=tcp::8080-:80
 ```
 
-2) You can now connect to lepidopter SSH (default password is `lepidopter`):
+2) You can now connect to:
+
+
+* Lepidopter SSH (default password is `lepidopter`):
 
 ```
 ssh -P 2222 lepidopter@localhost
 ```
+
+* Connect to ooniprobe's Web User Interface (in a web browser open):
+[http://localhost:8080](http://localhost:8080)
 
 ## Read this before running Lepidopter!
 
