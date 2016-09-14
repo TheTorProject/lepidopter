@@ -4,6 +4,6 @@
   <name replace-wildcards="yes">ooniprobe GUI on %h</name>
   <service>
      <type>_http._tcp</type>
-     <port>8842</port>
+     <port>89</port>
   </service>
 </service-group>
