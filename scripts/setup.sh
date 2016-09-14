@@ -11,7 +11,7 @@ function usage() {
     echo "with no options the script installs the dependencies and builds" \
             "lepidopter image"
     echo "-c compress lepidopter image with xz or zip compression (eg. -c xz)"
-    echo "-t create a torrent file of the image and the digests"
+    echo "-t create a torrent file of the xz image"
 }
 
 while getopts "c:ht" opt; do
@@ -40,12 +40,18 @@ done
 
 # Create a torrent of the xz image file
 mk_torrent() {
-apt-get install -y mktorrent bittornado
-cd images && \
-mktorrent -a 'udp://tracker.torrent.eu.org:451' \
-          -a 'udp://tracker.coppersurfer.tk:6969' \
-          -n ${image_file:-4} SHA* ${image_file}.xz
-btshowmetainfo ${image_file:-4}.torrent
+if [ ! -e ${image_file}.xz ] ; then
+    apt-get install -y mktorrent bittornado
+    mkdir -p images/torrent
+    cd images && \
+    ln -s $(pwd)/${image_file}.xz torrent
+    mktorrent -a 'udp://tracker.torrent.eu.org:451' \
+              -a 'udp://tracker.coppersurfer.tk:6969' \
+              -n ${image_file:-4} torrent
+    btshowmetainfo ${image_file:-4}.torrent
+else
+    echo "Torrent requires an xz compressed image file '${image_file}.xz'"
+fi
 }
 
 # Compress lepidopter img
@@ -59,9 +65,11 @@ apt-get install -y zip
 zip --verbose -9 images/${image_file}.zip images/${image_file}
 }
 
-# Add backports APT repository
-echo "deb $APT_MIRROR ${DEB_RELEASE}-backports main" > \
-    /etc/apt/sources.list.d/${DEB_RELEASE}-backports.list
+# Add backports APT repository if needed
+if [ ! -e /etc/apt/sources.list.d/${DEB_RELEASE}-backports.list ] ; then
+    echo "deb $APT_MIRROR ${DEB_RELEASE}-backports main" > \
+        /etc/apt/sources.list.d/${DEB_RELEASE}-backports.list
+fi
 
 apt-get update -q
 apt-get install -t ${DEB_RELEASE}-backports -y vmdebootstrap qemu-utils
