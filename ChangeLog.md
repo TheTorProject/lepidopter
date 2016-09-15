@@ -1,3 +1,10 @@
+# Lepidopter v0.3.1-beta [2016-09-15]
+
+- Remove obsolete ooniprobe deck generation script
+- Fix ooniprobe's WUI port listening on the correct port
+- Sync updater.py with lepidopter-update master (16b10e7)
+- Track version and add source code in updater.py
+
 # Lepidopter v0.3.0-beta [2016-09-14]
 
 - Add ooniprobe Web User Interface (2.0.0-rc.2)
