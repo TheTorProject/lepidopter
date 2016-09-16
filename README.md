@@ -6,6 +6,9 @@ The image provides a ready to run
 [ooniprobe](https://github.com/TheTorProject/ooni-probe) powered Debian jessie
 distribution.
 
+User documentation and image installation instruction can be found [here]
+(https://ooni.torproject.org/install/lepidopter/)
+
 ### Lepidopter repository tree structure
 
 ```
