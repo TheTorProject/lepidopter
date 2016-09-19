@@ -48,7 +48,7 @@ echo "Using tag reference: ${annotation} as release tag.\n"
 echo ${annotation} > ${VERSION_FILE}
 
 mv ChangeLog.md ChangeLog.md.old
-echo "# Lepidopter v${annotation} [`date +%Y-%m-%d`]\n" > ChangeLog.md
+echo "Lepidopter v${annotation} [`date +%Y-%m-%d`]\n" > ChangeLog.md
 cat ChangeLog.md.old >> ChangeLog.md
 rm ChangeLog.md.old
 
