@@ -43,12 +43,15 @@ while getopts "a:m:u:" opt; do
     esac
 done
 
+log_entry="Lepidopter v${annotation} [`date +%Y-%m-%d`]"
+
 echo "Using tag reference: ${annotation} as release tag.\n"
 
 echo ${annotation} > ${VERSION_FILE}
 
 mv ChangeLog.md ChangeLog.md.old
-echo "# Lepidopter v${annotation} [`date +%Y-%m-%d`]\n" > ChangeLog.md
+echo ${log_entry} > ChangeLog.md
+printf %${#log_entry}s |tr " " "-" >> ChangeLog.md
 cat ChangeLog.md.old >> ChangeLog.md
 rm ChangeLog.md.old
 
