@@ -20,12 +20,12 @@ Lepidopter v0.3.0-beta [2016-09-14]
 - Ensure that filesystem repair is triggered without physical attendance
 - Reduce tor bootstrap and save network bandwidth (#45)
 
-v0.2.1-alpha
-------------
+v0.2.1-alpha [2016-05-23]
+-------------------------
 
 - Cleanup ooniprobe logrotated files
 
-v0.2.0-alpha
-------------
+v0.2.0-alpha [2016-05-22]
+-------------------------
 
 - First official release that has a published distribution image.
