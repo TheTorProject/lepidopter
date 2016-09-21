@@ -6,8 +6,13 @@ The image provides a ready to run
 [ooniprobe](https://github.com/TheTorProject/ooni-probe) powered Debian jessie
 distribution.
 
-User documentation and image installation instruction can be found [here]
-(https://ooni.torproject.org/install/lepidopter/)
+Upon copying the image to the SD card, plugging it in and connecting the
+Raspberry Pi to the network, power and waiting some minutes for it to boot up,
+you should be able to view ooniprobe's graphical user interface by visiting
+this URL: [http://lepidopter.local](http://lepidopter.local)
+
+User documentation and detailed image installation instructions can be found
+[here](https://ooni.torproject.org/install/lepidopter/).
 
 ### Lepidopter repository tree structure
 
