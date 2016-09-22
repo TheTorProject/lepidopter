@@ -51,7 +51,7 @@ echo ${annotation} > ${VERSION_FILE}
 
 mv ChangeLog.md ChangeLog.md.old
 echo ${log_entry} > ChangeLog.md
-printf %${#log_entry}s |tr " " "-" >> ChangeLog.md
+printf %${#log_entry}s"\n\n" |tr " " "-" >> ChangeLog.md
 cat ChangeLog.md.old >> ChangeLog.md
 rm ChangeLog.md.old
 
