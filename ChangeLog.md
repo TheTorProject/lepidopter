@@ -1,6 +1,9 @@
 Lepidopter v0.3.2-beta [2016-09-22]
 -----------------------------------
 
+This pre-release fixes the updater for lepidopter. All previous pre-releases
+published will not have a working updater running.
+
 - Add lepidopter-update version 1 and versions directory
 
 Lepidopter v0.3.1-beta [2016-09-15]
