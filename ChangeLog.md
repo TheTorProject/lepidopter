@@ -1,3 +1,10 @@
+Lepidopter v0.3.3-beta [2016-10-15]
+-----------------------------------
+
+This release version includes ooniprobe version 2.0.0.
+
+- Add lepidopter-update version 1 and 2
+
 Lepidopter v0.3.2-beta [2016-09-22]
 -----------------------------------
 
