@@ -1,3 +1,10 @@
+Lepidopter v0.3.5-beta [2016-10-16]
+------------------------------------
+
+This release version includes ooniprobe version 2.0.0.
+
+- Hotfix use Twisted versions <=16.4.1
+
 Lepidopter v0.3.4-beta [2016-10-16]
 -----------------------------------
 
