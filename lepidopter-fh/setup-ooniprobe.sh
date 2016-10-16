@@ -19,7 +19,7 @@ apt-get -y install -t stretch obfs4proxy
 # Remove previous system versions of pyasn1 and python-cryptography
 apt-get -y remove python-pyasn1 python-cryptography
 # Install obfsproxy, fteproxy and ooniprobe
-pip install 'Twisted<=16.4.1' obfsproxy fteproxy ooniprobe==2.0.0
+pip install 'Twisted==16.4.1' obfsproxy fteproxy ooniprobe==2.0.0
 
 # Enable ooniprobe systemd service to start on boot
 systemctl enable ooniprobe
