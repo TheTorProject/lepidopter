@@ -1,3 +1,10 @@
+Lepidopter v0.3.4-beta [2016-10-16]
+-----------------------------------
+
+This release version includes ooniprobe version 2.0.0.
+
+- Set pip to only install ooniprobe version 2.0.0
+
 Lepidopter v0.3.3-beta [2016-10-15]
 -----------------------------------
 
