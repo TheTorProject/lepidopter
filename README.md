@@ -154,7 +154,7 @@ Run the main build script::
 way (much faster!)::
 
 ```
-bmaptool copy --nobmap lepidopter-alpha-armel.img.xz of=/dev/diskX
+bmaptool copy --nobmap lepidopter-Z-armel.img.xz /dev/diskX
 ```
 
 Note: bmaptool can copy compressed images to SD card without the need to 
@@ -167,20 +167,35 @@ decompressed data contains long sequences of binary zeros. We need to disable
 the creation of sparse file since dd needs the leading to create a bootable
 image. You can extract the image file with:
 
-`xz --decompress --verbose --no-sparse lepidopter-alpha-armel.img.xz`
+`xz --decompress --verbose --no-sparse lepidopter-Z-armel.img.xz`
 
 
 dd way::
 
 ```
-dd if=lepidopter-alpha-armel.img of=/dev/diskX bs=1m
+dd if=lepidopter-Z-armel.img of=/dev/diskX bs=1m
 ```
 
 [Detailed documentation](http://elinux.org/RPi_Easy_SD_Card_Setup#SD_card_setup)
 on how to flash/copy lepidopter Raspberry Pi image to your SD card from
 different OS.
 
-Lepidopter image default username/password::
+
+## Using lepidopter
+
+Upon copying the image and successfully booting the Raspberry Pi with the
+lepidopter image you should be able to access ooniprobe's web user interface and
+go through the setup wizard at:
+[http://lepidopter.local](http://lepidopter.local)
+
+Additionally you can connect to the SSH running at lepidopter by using the
+hostname: `lepidopter.local`
+
+Alternatively you can use the hostname `lepidopter`
+([http://lepidopter](http://lepidopter) or lepidopter's IP address in case
+`lepidopter.local` is not accesible.
+
+The default lepidopter image credentials are:
 
 ```
 username: lepidopter
