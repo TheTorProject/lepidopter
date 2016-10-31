@@ -191,6 +191,10 @@ go through the setup wizard at:
 Additionally you can connect to the SSH running at lepidopter by using the
 hostname: `lepidopter.local`
 
+Alternatively you can use the hostname `lepidopter`
+([http://lepidopter](http://lepidopter) or lepidopter's IP address in case
+`lepidopter.local` is not accesible.
+
 The default lepidopter image credentials are:
 
 ```
