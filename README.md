@@ -80,10 +80,10 @@ User documentation and detailed image installation instructions can be found
 ├── LICENSE.md
 ├── README.md       you are currently reading it
 ├── scripts         external scripts
-│   ├── lepidopter-sign.sh
-│   ├── release
-│   └── setup.sh    install dependencies needed to create and build the image 
-└── Vagrantfile
+    ├── lepidopter-sign.sh
+    ├── release
+    └── setup.sh    install dependencies needed to create and build the image 
+
 ```
 
 ### Supported Hardware
@@ -106,16 +106,6 @@ Clone lepidopter git repository::
 ```
 git clone https://github.com/TheTorProject/lepidopter
 ```
-
-### Using vagrant
-
-If you a vagrant type of person you can just run:
-
-```
-vagrant up
-```
-
-Then you should have the image good to go inside your current working directory.
 
 ### Install required packages (Debian)
 
