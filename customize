@@ -23,11 +23,6 @@ wget --directory-prefix=${ROOTDIR}/lib/firmware/brcm/ \
 https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm80211/brcm/brcmfmac43430-sdio.bin \
 https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm80211/brcm/brcmfmac43430-sdio.txt
 
-# Add module for hardware RNG
-cat <<EOF >> ${ROOTDIR}/etc/modules
-bcm2708_rng
-EOF
-
 # Add an apt repository with apt preferences
 set_apt_sources() {
     SUITE="$1"

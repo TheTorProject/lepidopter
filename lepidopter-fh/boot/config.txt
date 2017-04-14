@@ -1,0 +1,8 @@
+# Minimal GPU memory for headless mode
+gpu_mem=16
+# Enable the hardware watchdog
+dtparam=watchdog=on
+# Turn power LED into heartbeat
+dtparam=pwr_led_trigger=heartbeat
+# Enable the hardware random number generator (RNG)
+dtparam=random=on

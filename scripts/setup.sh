@@ -62,7 +62,7 @@ pxz --keep --verbose -D 12 images/${image_file}
 
 zip_archive() {
 apt-get install -y zip
-zip --verbose -9 images/${image_file}.zip images/${image_file}
+zip --junk-paths --verbose -9 images/${image_file}.zip images/${image_file}
 }
 
 # Add backports APT repository if needed

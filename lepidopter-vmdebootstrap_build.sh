@@ -37,7 +37,7 @@ vmdebootstrap \
     --package wget \
     --package kmod \
     --package curl \
-    --package haveged \
+    --package rng-tools \
     --package lsb-release \
     --package tcpdump \
     --package localepurge \
@@ -47,6 +47,7 @@ vmdebootstrap \
     --package wpasupplicant \
     --package wireless-regdb \
     --package crda \
+    --package watchdog \
     --configure-apt \
     --customize `pwd`/customize \
     "$@"
