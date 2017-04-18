@@ -1,0 +1,23 @@
+language: bash
+sudo: required
+env:
+  - ARCH=arm CHROOT_ARCH=armel ENV_VERSION=wheezy
+  - ARCH=arm CHROOT_ARCH=armel ENV_VERSION=jessie
+  - ARCH=arm CHROOT_ARCH=armhf ENV_VERSION=wheezy
+  - ARCH=arm CHROOT_ARCH=armhf ENV_VERSION=jessie
+before_install:
+  - sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu/ trusty main universe"
+  - sudo apt-get update -qq
+  - sudo apt-get install -q -y debootstrap qemu-user-static binfmt-support sbuild
+script:
+  - "bash -ex .travis-ci-test-install-tor-packages.sh"
+  - "bash -ex .travis-ci-test-install-tor-packages-proposed-updates-repo.sh"
+notifications:
+  irc:
+    template:
+      - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
+      - "Change view : %{compare_url}"
+      - "Build details : %{build_url}"
+    channels:
+      - "irc.oftc.net#test-anadahz-channel"
+    use_notice: true
