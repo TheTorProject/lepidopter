@@ -13,14 +13,14 @@ apt-get update
 
 # Install ooniprobe and pluggable transports dependencies
 apt-get -y install openssl libssl-dev libyaml-dev libffi-dev libpcap-dev tor \
-    libgeoip-dev libdumbnet-dev python-dev python-pip libgmp-dev
-# Install fteproxy and obfs4proxy (includes a lite version of meek)
-apt-get -y install -t stretch obfs4proxy fteproxy
+    libgeoip-dev libdumbnet-dev python-dev libgmp-dev
+# Install obfs4proxy (includes a lite version of meek)
+apt-get -y install -t stretch obfs4proxy python-pip
 
-# Remove previous system versions of pyasn1 and python-cryptography
-apt-get -y remove python-pyasn1 python-cryptography
+# Remove old system versions of python packages pyasn1, cryptography and openssl
+apt-get -y remove python-pyasn1 python-cryptography python-openssl
 # Install and ooniprobe
-pip install ooniprobe==2.2.0
+pip install fteproxy ooniprobe==2.2.0
 
 # Enable ooniprobe systemd service to start on boot
 systemctl enable ooniprobe
