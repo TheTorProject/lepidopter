@@ -86,6 +86,9 @@ cp vmdebootstrap /usr/sbin/vmdebootstrap
 modprobe loop
 
 cd $HOME/lepidopter/
+curl -L ${LEPIDOPTER_UPDATE_GIT}/tarball/master | tar zxvf - \
+    -C ${LEPIDOPTER_UPDATE_PATH} --wildcards */updater/ --strip-components=2 \
+    --exclude='latest_version' --exclude='test_updater.py' --exclude='example.py'
 ./lepidopter-vmdebootstrap_build.sh
 
 if [ "${#compression_method[@]}" -ne 0 ] ; then

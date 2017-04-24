@@ -2,7 +2,8 @@
 # This script updates lepidopter version and ChangeLog files
 set -e
 
-VERSION_FILE="lepidopter-fh/etc/lepidopter_version"
+source conf/lepidopter-image.conf
+UPDATE_INCREMENT=$(awk '{print $1+1}' ${UPDATE_VERSION_FILE})
 
 usage() {
     echo "usage: $0 [options]"
@@ -48,6 +49,9 @@ log_entry="Lepidopter v${annotation} [`date +%Y-%m-%d`]"
 echo "Using tag reference: ${annotation} as release tag.\n"
 
 echo ${annotation} > ${VERSION_FILE}
+
+echo "Increment lepidopter-update version to: ${UPDATE_INCREMENT}\n"
+printf ${UPDATE_INCREMENT} > ${UPDATE_VERSION_FILE}
 
 mv ChangeLog.md ChangeLog.md.old
 echo ${log_entry} > ChangeLog.md
