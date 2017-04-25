@@ -12,8 +12,8 @@ echo "deb ${TOR_DEB_REPO} ${DEB_RELEASE} main" > ${TOR_DEB_REPO_SRC_LIST}
 apt-get update
 
 # Install ooniprobe and pluggable transports dependencies
-apt-get -y install openssl libssl-dev libyaml-dev libffi-dev libpcap-dev tor \
-    libgeoip-dev libdumbnet-dev python-dev libgmp-dev
+RUNLEVEL=1 apt-get -y install openssl libssl-dev libyaml-dev libffi-dev libpcap-dev tor \
+    libgeoip-dev libdumbnet-dev python-dev libgmp-dev openvpn
 # Install obfs4proxy (includes a lite version of meek)
 apt-get -y install -t stretch obfs4proxy python-pip
 
@@ -27,4 +27,8 @@ systemctl enable ooniprobe
 
 # Stop running tor service that can lead to a busy chroot mount
 service tor stop
+
+# Disable the OpenVPN unit
+systemctl disable openvpn
+
 history -c
