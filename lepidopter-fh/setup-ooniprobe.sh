@@ -20,7 +20,7 @@ apt-get -y install -t stretch obfs4proxy python-pip
 # Remove old system versions of python packages pyasn1, cryptography and openssl
 apt-get -y remove python-pyasn1 python-cryptography python-openssl
 # Install and ooniprobe
-pip install txtorcon==0.18.0 fteproxy ooniprobe==2.2.0
+pip install fteproxy ooniprobe==2.2.0
 
 # Enable ooniprobe systemd service to start on boot
 systemctl enable ooniprobe
