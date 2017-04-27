@@ -2,14 +2,14 @@
 # This script updates lepidopter version and ChangeLog files
 set -e
 
-source conf/lepidopter-image.conf
+. conf/lepidopter-image.conf
 UPDATE_INCREMENT=$(awk '{print $1+1}' ${UPDATE_VERSION_FILE})
 
 usage() {
     echo "usage: $0 [options]"
-    echo -e "\t-a git tag annotation (X.X.X)"
-    echo -e "\t-m git tag message (\"msg\")"
-    echo -e "\t-u git tag GPG keyid (0xXXX)"
+    echo "\t-a git tag annotation (X.X.X)"
+    echo "\t-m git tag message (\"msg\")"
+    echo "\t-u git tag GPG keyid (0xXXX)"
 }
 
 if [ $# -ne 6 ] ; then

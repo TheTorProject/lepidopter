@@ -1,3 +1,23 @@
+Lepidopter v1.0.0 [2017-04-27]
+-------------------------------
+
+This release version includes ooniprobe version 2.2.0.
+
+- Add bootloader configuration file
+- Adjust to the minimum GPG memory possible (16M) #49
+- Add support for hardware RNG #96
+- Verbose heartbeat-like LED activity
+- Change MOTD color prompt
+- Password-less operation for the sudo group
+- Ship ooniprobe version 2.2.0
+- Do not store folders in the zip image archive #93
+- Add a persistent directory (/persistent-data)
+- Remove older obfsproxy package
+- Add packages: OpenVPN, rng-tools, watchdog
+- Fix active meek tor bridges
+- Set mount option noatime
+- Reduce GPU memory to 32M (was 64M)
+
 Lepidopter v0.3.5-beta [2016-10-16]
 ------------------------------------
 
