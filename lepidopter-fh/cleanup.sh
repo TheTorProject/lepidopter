@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -ex
 
+# Generate list of installed apt and Python packages
+dpkg-query -W -f='${binary:Package} ${Version}\n' > /lepidopter-apt-packages
+pip freeze > /lepidopter-pip-packages
+
 # Clean up the local repository of retrieved package files
 apt-get clean
 apt-get autoclean
