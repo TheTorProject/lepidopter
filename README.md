@@ -25,7 +25,10 @@ User documentation and detailed image installation instructions can be found
 ├── customize       customize script used to customize lepidopter image
 ├── images          where the build Lepidopter images created
 ├── lepidopter-fh   Lepidopter image filesystem hierarchy
+│   ├── boot
+│   │   └── config.txt
 │   ├── cleanup.sh  cleanup script
+│   ├── configure.sh
 │   ├── etc
 │   │   ├── apt
 │   │   │   └── apt.conf.d
@@ -52,28 +55,49 @@ User documentation and detailed image installation instructions can be found
 │   │   │   ├── lepidopter-update
 │   │   │   └── ooniprobe
 │   │   ├── motd.head                           Lepidopter MOTD ASCII logo
-│   │   ├── network
-│   │   │   └── if-up.d
-│   │   │       └── run_oonideckgen
 │   │   ├── ooniprobe
 │   │   │   └── ooniconfig.sh
 │   │   ├── ooniprobe.conf
+│   │   ├── sudoers
 │   │   ├── systemd
 │   │   │   └── system
 │   │   │       ├── lepidopter-update.service
 │   │   │       └── ooniprobe.service
-│   │   └── update-motd.d
-│   │       └── 50-lepidopter
+│   │   ├── update-motd.d
+│   │   │   └── 50-lepidopter
+│   │   └── watchdog.conf
 │   ├── opt
 │   │   └── ooni
 │   │       ├── lepidopter-update
 │   │       │   ├── public.asc
 │   │       │   ├── updater.py
 │   │       │   └── versions
+│   │       │       ├── update-1.py
+│   │       │       ├── update-1.py.asc
+│   │       │       ├── update-2.py
+│   │       │       ├── update-2.py.asc
+│   │       │       ├── update-3.py
+│   │       │       ├── update-3.py.asc
+│   │       │       ├── update-4.py
+│   │       │       ├── update-4.py.asc
+│   │       │       ├── update-5.py
+│   │       │       ├── update-5.py.asc
+│   │       │       ├── update-6.py
+│   │       │       ├── update-6.py.asc
+│   │       │       ├── update-7.py
+│   │       │       └── update-7.py.asc
 │   │       └── tor_data_dir
+│   ├── persistent-data
 │   ├── remove_ssh_host_keys.sh
 │   ├── setup-ooniprobe.sh
+│   ├── usr
+│   │   └── share
+│   │       └── ooni
+│   │           └── decks-available
 │   └── var
+│       ├── lib
+│       │   └── ooni
+│       │       └── decks-enabled
 │       └── log
 │           └── ooni
 ├── lepidopter-vmdebootstrap_build.sh   main lepidopter vmdebootstrap script

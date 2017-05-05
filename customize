@@ -23,11 +23,6 @@ wget --directory-prefix=${ROOTDIR}/lib/firmware/brcm/ \
 https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm80211/brcm/brcmfmac43430-sdio.bin \
 https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm80211/brcm/brcmfmac43430-sdio.txt
 
-# Add module for hardware RNG
-cat <<EOF >> ${ROOTDIR}/etc/modules
-bcm2708_rng
-EOF
-
 # Add an apt repository with apt preferences
 set_apt_sources() {
     SUITE="$1"
@@ -81,6 +76,12 @@ chroot ${ROOTDIR} ln -s /var/run/motd /etc/motd
 
 # Add (optional) pluggable transport support in tor config
 cat conf/tor-pt.conf >> ${ROOTDIR}/etc/tor/torrc
+
+# Get list of apt and Python packages from lepidopter image
+rsync -av --no-R --no-implied-dirs --remove-source-files \
+${ROOTDIR}/lepidopter-apt-packages pkglist/lepidopter-${LEPIDOPTER_BUILD}-${ARCH}-apt-packages
+rsync -av --no-R --no-implied-dirs --remove-source-files \
+${ROOTDIR}/lepidopter-pip-packages pkglist/lepidopter-${LEPIDOPTER_BUILD}-${ARCH}-pip-packages
 
 echo "Customize script finished successfully."
 exit 0

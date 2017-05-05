@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-source lepidopter-fh/etc/default/lepidopter
+DEBIAN_FRONTEND=noninteractive
+
 source conf/lepidopter-image.conf
 
 image_file="lepidopter-${LEPIDOPTER_BUILD}-${ARCH}.img"
@@ -62,7 +63,7 @@ pxz --keep --verbose -D 12 images/${image_file}
 
 zip_archive() {
 apt-get install -y zip
-zip --verbose -9 images/${image_file}.zip images/${image_file}
+zip --junk-paths --verbose -9 images/${image_file}.zip images/${image_file}
 }
 
 # Add backports APT repository if needed
@@ -74,20 +75,20 @@ fi
 apt-get update -q
 apt-get install -t ${DEB_RELEASE}-backports -y vmdebootstrap qemu-utils
 
-# Copy know working vmdebootstrap version 0.10 from git
+# Copy known working vmdebootstrap version 0.10 from git
 cd $HOME
 git clone git://git.liw.fi/vmdebootstrap
 cd vmdebootstrap
 git checkout tags/vmdebootstrap-0.10
 cp vmdebootstrap /usr/sbin/vmdebootstrap
 
-cd $HOME
-git clone https://github.com/TheTorProject/lepidopter.git
-
 # Add loop kernel module required to mount loop devices
 modprobe loop
 
-cd lepidopter/
+cd $HOME/lepidopter/
+curl -L ${LEPIDOPTER_UPDATE_GIT}/tarball/master | tar zxvf - \
+    -C ${LEPIDOPTER_UPDATE_PATH} --wildcards */updater/ --strip-components=2 \
+    --exclude='latest_version' --exclude='test_updater.py' --exclude='example.py'
 ./lepidopter-vmdebootstrap_build.sh
 
 if [ "${#compression_method[@]}" -ne 0 ] ; then
