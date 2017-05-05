@@ -1,4 +1,4 @@
-Lepidopter v1.0.0 [2017-04-27]
+Lepidopter v1.0.0 [2017-05-05]
 -------------------------------
 
 This release version includes ooniprobe version 2.2.0.
@@ -17,7 +17,7 @@ This release version includes ooniprobe version 2.2.0.
 - Fix active meek tor bridges
 - Set mount option noatime
 - Reduce GPU memory to 32M (was 64M)
-- Pin txtorcon version to 0.18.0
+- Pin txtorcon package version to 0.18.0
 
 Lepidopter v0.3.5-beta [2016-10-16]
 ------------------------------------
