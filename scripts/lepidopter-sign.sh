@@ -11,7 +11,7 @@ sha256sum *.img.{xz,zip} > SHA256SUM
 sha512sum *.img.{xz,zip} > SHA512SUM
 
 echo "Signing..."
-for f in *.img.{xz,zip} SHA*SUM *.torrent; do
+for f in *.img.{xz,zip} SHA*SUM; do
     gpg2 --verbose --armor --default-key ${LEPIDOPTER_SIGN_KEY} --detach-sign $f
 done
 
