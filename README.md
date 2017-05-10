@@ -102,6 +102,7 @@ User documentation and detailed image installation instructions can be found
 │           └── ooni
 ├── lepidopter-vmdebootstrap_build.sh   main lepidopter vmdebootstrap script
 ├── LICENSE.md
+├── pkglist list of package in lepidopter image
 ├── README.md       you are currently reading it
 ├── scripts         external scripts
     ├── lepidopter-sign.sh
