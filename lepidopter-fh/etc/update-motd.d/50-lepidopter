@@ -5,6 +5,7 @@
 IMAGE_DOC_URL="https://github.com/TheTorProject/lepidopter/blob/master/README.md"
 IMAGE_SOURCE_URL="https://github.com/TheTorProject/lepidopter"
 KERNEL_VERSION=$(uname -r)
+LEPIDOPTER_UPDATE_VERSION=$(cat /etc/lepidopter-update/version)
 
 [ -r /etc/lsb-release ] && . /etc/lsb-release
 if [ -z "$DISTRIB_DESCRIPTION" ] && [ -x /usr/bin/lsb_release ]; then
@@ -31,10 +32,11 @@ printf "Welcome on %s (%s %s %s %s)\n" "$(hostname)" "${DISTRIB_DESCRIPTION}" \
 printf "\n"
 printf "System information as of: %s\n" "$date"
 #printf "\n"
-printf "Memory usage:\t%s\t\tInt IP Address:\t%s\n" "$memory_usage" "$ip"
-printf "System load:\t%s\t\tSystem uptime:\t%s\n" "$load" "$time"
-printf "Avail Space:\t%s\t\tImage build:\t%s\n" "$root_usage" "$LEPIDOPTER_BUILD"
-printf "Local Users:\t%s\t\tProcesses:\t%s\n" $users $processes
+printf "Update version:\t%s\t\tInt. IP Address: %s\n" "$LEPIDOPTER_UPDATE_VERSION" "$ip"
+printf "Memory usage:\t%s\t\tSystem uptime:\t %s\n" "$memory_usage" "$time"
+printf "System load:\t%s\t\tImage build:\t %s\n" "$load" "$LEPIDOPTER_BUILD"
+printf "Avail. Space:\t%s\t\tProcesses:\t %s\n" "$root_usage" "$processes"
+printf "Local Users:\t%s\n" "$users"
 printf "\n"
 printf "Documentation:\t%s\n" "$IMAGE_DOC_URL"
 printf "Image source:\t%s\n" "$IMAGE_SOURCE_URL"
